@@ -1,0 +1,19 @@
+{% extends "layout/studio.html" %}
+
+{% block content %}
+    {% with request.user.channel as channel %}
+        <div>
+            <div class="px-8 pt-6 pb-4">
+                <div class="text-2xl font-semibold">Audio Library</div>
+            </div>
+            <div>
+                <div class="text-center flex flex-col items-center gap-2 w-full max-w-xl mx-auto py-8">
+                    <img src="https://www.gstatic.com/youtube/img/creator/no_content_illustration_v3.svg" alt="" />
+                    <div class="text-md">Nothing to see yet</div>
+                    <p class="text-sm text-gray-600">You haven’t submitted any copyright takedown requests.</p>
+                    <p class="text-sm text-gray-600">Looking for a copyright claim somebody made on your video? Check the video list.</p>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout/studio.html" %}
+
+{% block title %}
+Video details - YouTube Studio
+{% endblock %}
+
+{% block aside %}
+    {% include "components/blocks/aside/details_aside.html" %}
+{% endblock %}
+
+{% block content %}
+    {% with request.user.channel as channel %}
+        <div class="yt--studio--details">
+            <div class="yt--details--header">
+                <div class="text-2xl font-semibold">Video Editor</div>
+            </div>
+            <div>
+                <div class="text-center flex flex-col items-center gap-2 w-full max-w-xl mx-auto py-8">
+                    <img src="https://www.gstatic.com/youtube/img/creator/no_content_illustration_v3.svg" alt="" />
+                    <div class="text-md">Nothing to see yet</div>
+                    <p class="text-sm text-gray-600">You haven’t submitted any copyright takedown requests.</p>
+                    <p class="text-sm text-gray-600">Looking for a copyright claim somebody made on your video? Check the video list.</p>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}

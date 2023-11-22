@@ -1,0 +1,40 @@
+<form method="post"
+      enctype="multipart/form-data"
+      data-studio-target="VideoEditionForm"
+      data-auto-save="true"
+      id="upload--renderer--form"
+      data-action="turbo:before-fetch-request->studio#fetchRequest"
+      class="flex flex-col gap-6">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+    <div class="flex flex-col gap-2">
+        <label for="{{ form.title.id_for_label }}">Title</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+            <span>{{ form.title.errors }}</span>
+        {% endif %}
+    </div>
+    <div class="flex flex-col gap-2">
+        <label for="{{ form.description.id_for_label }}">Description</label>
+        {{ form.description }}
+        {% if form.title.errors %}
+            <span>{{ form.title.errors }}</span>
+        {% endif %}
+    </div>
+    <div class="flex flex-col gap-2">
+        <div>Poster</div>
+        <div class="grid grid-cols-4 gap-2" data-studio-target="VideoEditionThumbnails">
+            <label for="{{ form.thumbnail.id_for_label }}" class="border border-gray-400 cursor-pointer rounded flex flex-col items-center gap-1 justify-center py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M236 136v64a12 12 0 0 1-12 12H32a12 12 0 0 1-12-12v-64a12 12 0 0 1 12-12h48a4 4 0 0 1 0 8H32a4 4 0 0 0-4 4v64a4 4 0 0 0 4 4h192a4 4 0 0 0 4-4v-64a4 4 0 0 0-4-4h-48a4 4 0 0 1 0-8h48a12 12 0 0 1 12 12ZM82.83 74.83L124 33.66V128a4 4 0 0 0 8 0V33.66l41.17 41.17a4 4 0 1 0 5.66-5.66l-48-48a4 4 0 0 0-5.66 0l-48 48a4 4 0 0 0 5.66 5.66ZM196 168a8 8 0 1 0-8 8a8 8 0 0 0 8-8Z"/></svg>
+                <span class="text-sm text-gray-600">Upload</span>
+                <input type="file" accept="image/*" hidden name="thumbnail" data-action="input->studio#triggerSubmit" id="{{ form.thumbnail.id_for_label }}" />
+            </label>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <label for="{{ form.playlist.id_for_label }}">Playlists</label>
+        {{ form.playlist }}
+    </div>
+</form>

@@ -1,0 +1,63 @@
+@use "../../foundation/breakpoints" as breakpoints;
+
+.yt--video--label {
+  @apply block;
+
+  .yt--video--trailer {
+    @apply flex items-center gap-3 border border-white rounded;
+
+    .yt--video--header {
+      @apply relative;
+
+      @include breakpoints.desktop {
+        flex: 3;
+      }
+
+      @include breakpoints.tablet-and-above {
+        flex: 4;
+      }
+
+      .yt--video--header--overlay {
+        @apply hidden;
+      }
+    }
+
+    .yt--video--info {
+      @include breakpoints.desktop {
+        flex: 9;
+      }
+
+      @include breakpoints.tablet-and-above {
+        flex: 8;
+      }
+
+      @apply flex flex-col gap-1;
+
+      .yt--video--title {
+        @apply line-clamp-2 font-semibold text-sm;
+      }
+    }
+  }
+
+  &.checked {
+    .yt--video--trailer {
+      @apply bg-gray-100 border border-gray-200 rounded;
+
+      .yt--video--header {
+        .yt--video--header--overlay {
+          @apply bg-blue-500 bg-opacity-80 text-white;
+          @apply block absolute top-0 left-0 w-full h-full;
+          @apply flex items-center justify-center;
+        }
+      }
+    }
+  }
+
+  &:not(:last-of-type) {
+    @apply pb-2;
+  }
+
+  .yt--radio--check {
+    @apply hidden;
+  }
+}

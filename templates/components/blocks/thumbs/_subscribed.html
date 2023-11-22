@@ -1,0 +1,32 @@
+<div data-controller="dropdown" data-action="click->dropdown#toggle click@window->dropdown#hide">
+  <div id="dropdown-button" class="relative inline-block">
+    <button data-dropdown-target="button" class="px-3.5 py-2 bg-gray-100 text-black rounded-full hover:bg-gray-200 text-sm flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36"><path fill="currentColor" d="M32.51 27.83A14.4 14.4 0 0 1 30 24.9a12.63 12.63 0 0 1-1.35-4.81v-4.94A10.81 10.81 0 0 0 19.21 4.4V3.11a1.33 1.33 0 1 0-2.67 0v1.31a10.81 10.81 0 0 0-9.33 10.73v4.94a12.63 12.63 0 0 1-1.35 4.81a14.4 14.4 0 0 1-2.47 2.93a1 1 0 0 0-.34.75v1.36a1 1 0 0 0 1 1h27.8a1 1 0 0 0 1-1v-1.36a1 1 0 0 0-.34-.75ZM5.13 28.94a16.17 16.17 0 0 0 2.44-3a14.24 14.24 0 0 0 1.65-5.85v-4.94a8.74 8.74 0 1 1 17.47 0v4.94a14.24 14.24 0 0 0 1.65 5.85a16.17 16.17 0 0 0 2.44 3Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M18 34.28A2.67 2.67 0 0 0 20.58 32h-5.26A2.67 2.67 0 0 0 18 34.28Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+        <span>Subscribed</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 28 28"><path fill="currentColor" d="M4.22 9.47a.75.75 0 0 1 1.06 0L14 18.19l8.72-8.72a.75.75 0 1 1 1.06 1.06l-9.25 9.25a.75.75 0 0 1-1.06 0l-9.25-9.25a.75.75 0 0 1 0-1.06Z"/></svg>
+    </button>
+      <div data-dropdown-target="menu"
+          data-transition-enter="transition ease-out duration-200"
+          data-transition-enter-from="opacity-0 translate-y-1"
+          data-transition-enter-to="opacity-100 translate-y-0"
+          data-transition-leave="transition ease-in duration-150"
+          data-transition-leave-from="opacity-100 translate-y-0"
+          data-transition-leave-to="opacity-0 translate-y-1"
+          class="hidden absolute top-4 right-0 z-10 mt-5 flex w-screen max-w-max">
+      <div class="text-sm bg-white shadow-lg rounded border overflow-hidden">
+        <a href="#" class='no-underline px-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-no-wrap flex items-center gap-2'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6.5c0 1.93-1.57 3.5-3.5 3.5S14 8.43 14 6.5S15.57 3 17.5 3S21 4.57 21 6.5m-2 5.29c-.5.13-1 .21-1.5.21A5.51 5.51 0 0 1 12 6.5c0-1.47.58-2.8 1.5-3.79A1.93 1.93 0 0 0 12 2c-1.1 0-2 .9-2 2v.29C7.03 5.17 5 7.9 5 11v6l-2 2v1h18v-1l-2-2v-5.21M12 23c1.11 0 2-.89 2-2h-4a2 2 0 0 0 2 2Z"/></svg>
+            <span>All</span>
+        </a>
+        <a href="#" class='no-underline px-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-no-wrap flex items-center gap-2'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 22h2"/><circle cx="12" cy="3" r="1"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 19v-9c0-1.144.32-2.214.876-3.124M6 19h12M6 19H4m14 0v-1m0 1h1M9.999 4.342A6 6 0 0 1 18 10v2.343"/><path stroke-linecap="round" d="m4 4l16 16"/></g></svg>
+            <span>None</span>
+        </a>
+        <a href="#" class='no-underline px-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-no-wrap border-t flex items-center gap-2' data-action="click->assets#followChannel" data-channel="{{ channel.id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" data-channel="{{ channel.id }}" width="20" height="20" viewBox="0 0 256 256"><g transform="translate(256 0) scale(-1 1)"><path fill="currentColor" d="M254 136a6 6 0 0 1-6 6h-48a6 6 0 0 1 0-12h48a6 6 0 0 1 6 6Zm-57.41 60.14a6 6 0 1 1-9.18 7.72C166.9 179.45 138.69 166 108 166s-58.89 13.45-79.41 37.86a6 6 0 0 1-9.18-7.72C35.14 177.41 55 164.48 77 158.26a66 66 0 1 1 62 0c22 6.22 41.86 19.15 57.59 37.88ZM108 154a54 54 0 1 0-54-54a54.06 54.06 0 0 0 54 54Z"/></g></svg>
+            <span data-channel="{{ channel.id }}">Unsubscribe</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

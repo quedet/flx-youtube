@@ -1,0 +1,87 @@
+@use "../foundation/breakpoints" as breakpoints;
+@import "header";
+@import "videos";
+@import "studio/all";
+@import "channel/all";
+@import "watching/all";
+
+*:focus {
+  outline: none;
+}
+
+.yt--page {
+  @include breakpoints.tablet-and-beyond {
+    height: 100vh;
+
+    .yt--page--container {
+      .yt--header {
+        height: 55px;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+
+        @apply bg-white;
+      }
+
+      .yt--main--content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 70px repeat(11, 1fr);
+
+        .yt--aside {
+          width: 70px;
+          height: calc(100vh - 55px);
+          position: sticky;
+          top: 55px;
+          background-color: #fff;
+        }
+
+        .yt--content {
+          grid-column: 2 / -1;
+        }
+      }
+    }
+  }
+
+  @include breakpoints.phone-only {
+    .yt--page--container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(2rem, 1fr));
+
+      .yt--header {
+        grid-column: 1 / -1;
+      }
+
+      .yt--aside {
+        @apply hidden;
+      }
+
+      .yt--main--content {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}
+
+.yt--renderer--header {
+  @apply px-4 bg-white;
+
+  @include breakpoints.tablet-and-beyond {
+    position: sticky;
+    top: 55px;
+
+    @apply px-8 z-10;
+  }
+}
+
+.yt--renderer--content {
+  @apply py-4;
+
+  @include breakpoints.tablet-and-beyond {
+    @apply px-8;
+  }
+
+  @include breakpoints.phone-only {
+    @apply px-4;
+  }
+}

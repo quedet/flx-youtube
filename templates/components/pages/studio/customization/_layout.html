@@ -1,0 +1,129 @@
+{% with request.user.channel as channel %}
+    <div class="flex flex-col gap-8">
+        <div>
+            <header class="mb-4">
+                <h3 class="font-semibold">Video spotlight</h3>
+                <p class="text-gray-800 text-sm">Add a video to the top of your channel homepage</p>
+            </header>
+            <div class="flex flex-col gap-4">
+                <div class="flex items-start gap-4 py-3 px-4 border">
+                    <div>
+                        <div class="flex items-center justify-center p-2 bg-gray-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M4,21H3V3h1V21z M8,15H6v2h2V15z M8,11H6v2h2V11z M8,7H6v2h2V7z M18,15h-2v2h2V15z M8,19H6v2h2V19z M18,19h-2v2h2V19z M18,11h-2v2h2V11z M18,7h-2v2h2V7z M8,3H6v2h2V3z M18,3h-2v2h2V3z M21,3h-1v18h1V3z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between w-full">
+                        <div>
+                            <div class="font-semibold">Channel trailer for people who haven't subscribed</div>
+                            <p class="text-gray-800 text-sm">Share a preview of your channel shown with people who haven’t subscribed yet.</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            {% if channel.layout.trailer %}
+                                <div data-controller="modal"
+                                     data-modal-url-value="{% url 'studio:customization-layout-trailer-play' channel.uid channel.layout.trailer.uid %}"
+                                     data-action="keydown.esc->modal#close" tabindex="-1" class="relative z-10">
+                                    <button class="font-semibold text-blue-500" data-action="click->modal#open">View Trailer</button>
+                                    <!-- Modal Background -->
+                                    <div class="hidden fixed inset-0 bg-black bg-opacity-80 overflow-y-auto flex items-center justify-center"
+                                         data-modal-target="background"
+                                         data-action="click->modal#closeBackground"
+                                         data-transition-enter="transition-all ease-in-out duration-300"
+                                         data-transition-enter-from="bg-opacity-0"
+                                         data-transition-enter-to="bg-opacity-80"
+                                         data-transition-leave="transition-all ease-in-out duration-300"
+                                         data-transition-leave-from="bg-opacity-80"
+                                         data-transition-leave-to="bg-opacity-0">
+                                        <!-- Modal Container -->
+                                        <div data-modal-target="container" class="max-h-screen w-full max-w-lg relative">
+                                            <!-- Modal Card -->
+                                            <div class="m-1 bg-white rounded shadow">
+                                                <div>
+                                                    <turbo-frame id="yt--channel--trailer--play"
+                                                                 lazy="true"
+                                                                 data-modal-target="modalContent">
+                                                    </turbo-frame>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div data-controller="modal"
+                                 data-modal-url-value="{% url 'studio:customization-layout-trailer' channel.uid %}"
+                                 data-action="keydown.esc->modal#close" tabindex="-1" class="relative z-10">
+                                <button class="font-semibold text-blue-500" data-action="click->modal#open">
+                                    {% if channel.layout.trailer %}
+                                        Edit
+                                    {% else %}
+                                        ADD
+                                    {% endif %}
+                                </button>
+                                <!-- Modal Background -->
+                                <div class="hidden fixed inset-0 bg-black bg-opacity-80 overflow-y-auto flex items-center justify-center"
+                                     data-modal-target="background"
+                                     data-action="click->modal#closeBackground"
+                                     data-transition-enter="transition-all ease-in-out duration-300"
+                                     data-transition-enter-from="bg-opacity-0"
+                                     data-transition-enter-to="bg-opacity-80"
+                                     data-transition-leave="transition-all ease-in-out duration-300"
+                                     data-transition-leave-from="bg-opacity-80"
+                                     data-transition-leave-to="bg-opacity-0">
+                                    <!-- Modal Container -->
+                                    <div data-modal-target="container" class="max-h-screen w-full max-w-lg relative">
+                                        <!-- Modal Card -->
+                                        <div class="m-1 bg-white rounded shadow">
+                                            <div>
+                                                <turbo-frame id="yt--channel--trailer"
+                                                             lazy="true"
+                                                             data-modal-target="modalContent">
+                                                </turbo-frame>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <header class="mb-4">
+                <h3 class="font-semibold">Featured sections</h3>
+                <p class="text-gray-800 text-sm">Customize the layout of your channel homepage with up to 12 sections.</p>
+            </header>
+            <div class="flex flex-col gap-4">
+                <div class="flex items-start gap-4 py-3 px-4 border">
+                    <div>
+                        <div class="flex items-center justify-center p-2 bg-gray-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M4,21H3V3h1V21z M8,15H6v2h2V15z M8,11H6v2h2V11z M8,7H6v2h2V7z M18,15h-2v2h2V15z M8,19H6v2h2V19z M18,19h-2v2h2V19z M18,11h-2v2h2V11z M18,7h-2v2h2V7z M8,3H6v2h2V3z M18,3h-2v2h2V3z M21,3h-1v18h1V3z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between w-full">
+                        <div>
+                            <div class="font-semibold">Channel trailer for people who haven't subscribed</div>
+                            <p class="text-gray-800 text-sm">Share a preview of your channel shown with people who haven’t subscribed yet.</p>
+                        </div>
+                        <button class="font-semibold text-blue-500">
+                            ADD
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 py-3 px-4 border">
+                    <div class="flex items-center justify-center p-2 bg-gray-100 rounded-full">
+                        <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" class="style-scope tp-yt-iron-icon"><g class="style-scope tp-yt-iron-icon"><path d="M2,5v14h20V5H2z M21,6v12H3V6h2l1,3h3L8,6h2l1,3h3l-1-3h2l1,3h3l-1-3H21z M6,14l2.34-0.66L9,11l0.66,2.34L12,14l-2.34,0.66 L9,17l-0.66-2.34L6,14z M14,12l1.56-0.44L16,10l0.44,1.56L18,12l-1.56,0.44L16,14l-0.44-1.56L14,12z" class="style-scope tp-yt-iron-icon"></path></g></g></svg>
+                    </div>
+                    <div class="flex items-center justify-between w-full">
+                        <div>
+                            <div class="font-semibold">Featured video for returning subscribers</div>
+                            <p class="text-gray-800 text-sm">Highlight a video for your subscribers to watch. This video won’t be shown again at the top of your page for subscribers who have watched it.</p>
+                        </div>
+                        <button class="font-semibold text-blue-500">
+                            ADD
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endwith %}

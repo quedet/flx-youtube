@@ -1,0 +1,15 @@
+<div class="flex items-center gap-2">
+    <button class="rounded-full px-2 py-2 hover:bg-gray-200"
+            data-action="click->assets#likeComment"
+            data-model="{{ obj.get_model_name }}"
+            data-id="{{ obj.id }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M2 10h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1m0 1v9h3v-9H2m15.72 8.03l3-5c.18-.3.28-.66.28-1.03v-1a2 2 0 0 0-2-2h-5.61l1.46-5.44v-.02a.97.97 0 0 0-.26-.96l-6 6.01C8.22 9.95 8 10.45 8 11v7a2 2 0 0 0 2 2h6c.73 0 1.37-.39 1.72-.97M22 13c0 .59-.17 1.15-.47 1.61l-2.91 4.84C18.11 20.38 17.13 21 16 21h-6a3 3 0 0 1-3-3v-7c0-.83.34-1.58.88-2.12l6.71-6.72l.71.71c.53.53.7 1.29.51 1.97L14.69 9H19a3 3 0 0 1 3 3v1Z"/></svg>
+    </button>
+    <span class="text-sm" id="yt-{{ obj.get_model_name }}-{{ obj.id }}-like-count" data-id="{{ obj.id }}">{{ obj.users_like.count }}</span>
+</div>
+<button class="px-2 py-2 rounded-full hover:bg-gray-200"
+        data-action="click->assets#dislikeComment"
+        data-id="{{ obj.id }}"
+        data-model="{{ obj.get_model_name }}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g transform="rotate(180 12 12)"><path fill="currentColor" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57l.03-.32c0-.41-.17-.79-.44-1.06L14.17 1L7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></g></svg>
+</button>

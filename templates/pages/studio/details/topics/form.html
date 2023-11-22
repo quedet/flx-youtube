@@ -1,0 +1,35 @@
+<turbo-frame id="{{ request.turbo.frame }}">
+    <header class="flex items-center justify-between px-4 py-2">
+        <h2>Select topics</h2>
+        <button type="button" class="flex items-center justify-center p-2 hover:bg-gray-100 hover:rounded-full" data-action="click->modal#close:prevent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 72 72"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m17.5 17.5l37 37m0-37l-37 37"/></svg>
+        </button>
+    </header>
+    <div>
+        <form method="get"
+              class="px-4 py-4"
+              {% if video.get_model_name == 'video' %}
+                action="{% url 'studio:video-topics' request.user.channel.uid video.id %}"
+              {% else %}
+                action="{% url 'studio:draft-topics' request.user.channel.uid video.id %}"
+              {% endif %}
+              data-controller="autosearch"
+              data-action="turbo:before-fetch-request->autosearch#fetchRequest">
+            <label for="id_search" class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m21 21l-4.343-4.343m0 0A8 8 0 1 0 5.343 5.343a8 8 0 0 0 11.314 11.314Z"/></svg>
+                <input data-autosearch-target="input" type="text" name="search" {% if query %}value="{{ query }}" {% endif %} id="id_search" class="border-none py-0 px-0 w-full" placeholder="Search anything you want here."/>
+            </label>
+        </form>
+        <form method="post" data-action="turbo:before-fetch-request->topics#fetchRequest" class="yt--trailer--form px-4 py-2 flex flex-col gap-4" action="{% url 'studio:video-detail' request.user.channel.uid video.id %}">
+            {% csrf_token %}
+            <div class="flex items-center flex-wrap gap-2" id="yt--topics--selected">
+                {% for topic in video.topics.all %}
+                    {% include "pages/studio/details/topics/selected.html" %}
+                {% endfor %}
+            </div>
+            <div class="border-t py-4">
+                <div id="topics-list-with-pagination" class="flex items-center flex-wrap gap-2">Please type your topic.</div>
+            </div>
+        </form>
+    </div>
+</turbo-frame>

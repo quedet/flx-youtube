@@ -1,0 +1,14 @@
+{% extends 'layout/base.html' %}
+
+{% load assets_tags %}
+{% load humanize %}
+
+{% block content %}
+<div class="flex flex-col">
+    <div class="yt--renderer--content">
+        <div class="videos--list gap-8" id="videos--list" data-assets-target="searchResults">
+            {% include 'pages/search/results.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

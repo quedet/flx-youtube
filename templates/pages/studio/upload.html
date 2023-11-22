@@ -1,0 +1,57 @@
+{% extends "layout/studio.html" %}
+
+{% block content %}
+    {% with request.user.channel as channel %}
+        <div class="py-8 px-8 h-full">
+            <div class="flex items-center justify-between mb-6">
+                <div class="text-2xl font-semibold">Upload Video</div>
+                <div class="flex items-center gap-4">
+                    <div class="px-2 py-2 hover:bg-gray-100 rounded-full">
+                        <div class="flex items-center justify-center">
+                            <svg width="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M17,18v1H6V18ZM6.49,9l.71.71L11,5.91V16h1V5.91l3.8,3.81L16.51,9l-5-5Z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                        </div>
+                    </div>
+                    <div class="px-2 py-2 hover:bg-gray-100 rounded-full">
+                        <div class="flex items-center justify-center">
+                            <svg height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g width="24" height="24" viewBox="0 0 24 24" class="style-scope tp-yt-iron-icon"><path d="M14 11.9999C14 13.0999 13.1 13.9999 12 13.9999C10.9 13.9999 10 13.0999 10 11.9999C10 10.8999 10.9 9.99992 12 9.99992C13.1 9.99992 14 10.8999 14 11.9999ZM8.48 8.44992L7.77 7.74992C6.68 8.82992 6 10.3399 6 11.9999C6 13.6599 6.68 15.1699 7.77 16.2499L8.48 15.5399C7.57 14.6399 7 13.3899 7 11.9999C7 10.6099 7.57 9.35992 8.48 8.44992ZM16.23 7.74992L15.52 8.45992C16.43 9.35992 17 10.6099 17 11.9999C17 13.3899 16.43 14.6399 15.52 15.5499L16.23 16.2599C17.32 15.1699 18 13.6599 18 11.9999C18 10.3399 17.32 8.82992 16.23 7.74992ZM5.65 5.62992L4.95 4.91992C3.13 6.72992 2 9.23992 2 11.9999C2 14.7599 3.13 17.2699 4.95 19.0799L5.66 18.3699C4.02 16.7399 3 14.4899 3 11.9999C3 9.50992 4.02 7.25992 5.65 5.62992ZM19.05 4.91992L18.34 5.62992C19.98 7.25992 21 9.50992 21 11.9999C21 14.4899 19.98 16.7399 18.35 18.3699L19.06 19.0799C20.87 17.2699 22 14.7599 22 11.9999C22 9.23992 20.87 6.72992 19.05 4.91992Z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="upload--renderer" data-controller="uploader">
+                <div id="loading" class="border relative h-60 hidden" data-uploader-target="loading">
+                    <div class="h-0 w-full bg-green-300" id="loading-percent" data-uploader-target="loadingProgress"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-full py-2 px-4 text-sm bg-inherit flex flex-col items-center justify-center">
+                        <div class="px-4 py-4 bg-emerald-100 rounded-full text-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="80" height="80" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="2 4" stroke-dashoffset="6" d="M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3"><animate attributeName="stroke-dashoffset" dur="0.6s" repeatCount="indefinite" values="6;0"/></path><path stroke-dasharray="30" stroke-dashoffset="30" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.1s" dur="0.3s" values="30;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M12 16v-7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.2s" values="10;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 8.5l3.5 3.5M12 8.5l-3.5 3.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.7s" dur="0.2s" values="6;0"/></path></g></svg>
+                        </div>
+                        <div class="text-center text-gray-800 mt-4">
+                            <p class="text-md font-semibold" id="progress-message"><span id="progress-percent">0%</span> Uploaded</p>
+                        </div>
+                    </div>
+                </div>
+                <form data-uploader-target="form" method="post"
+                      data-uploader-upload-url-value="{% url 'studio:upload' channel.uid %}"
+                      class="flex flex-col justify-center items-center gap-6 border py-8">
+                    {% csrf_token %}
+
+                    <div class="px-4 py-4 bg-gray-100 rounded-full text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h6v-6h4l-7-7l-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+                    </div>
+                    <div class="text-center text-gray-800">
+                        <p class="text-md font-semibold">Drag and drop video files to upload</p>
+                        <p class="text-sm">Your videos will be private until you publish them.</p>
+                    </div>
+                    <div>
+                        <input type="file" id="file" name="source" hidden accept="video/*" data-action="change->uploader#uploadVideo" />
+                        <label for="file" class="px-3 py-2 bg-blue-500 text-white text-sm cursor-pointer">UPLOAD VIDEOS</label>
+                    </div>
+                </form>
+            </div>
+            <div class="text-center text-sm text-gray-700 mt-6">
+                <p>By submitting your videos to YouTube, you acknowledge that you agree to YouTube's <a href="https://www.youtube.com/t/terms" class="text-blue-600">Terms of Service</a> and <a href="https://www.youtube.com/howyoutubeworks/policies/community-guidelines/" class="text-blue-600">Community Guidelines</a>.</p>
+                <p>Please be sure not to violate others' copyright or privacy rights. <a href="https://www.youtube.com/howyoutubeworks/policies/copyright/" class="text-blue-600">Learn more</a></p>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}

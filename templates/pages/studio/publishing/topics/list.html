@@ -1,0 +1,5 @@
+{% for topic in topics %}
+    {% include "pages/studio/details/topics/item.html" %}
+{% empty %}
+    <div>No Topics found for "{{ query }}".</div>
+{% endfor %}

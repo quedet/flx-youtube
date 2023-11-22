@@ -1,0 +1,107 @@
+{% load thumbnail %}
+
+{% if page_obj.object_list.count > 0 %}
+    <table data-controller="checkbox-select-all" class="flex flex-col">
+        <thead class="border-b border-t text-sm">
+            <tr class="grid grid-cols-8">
+                <th class="col-start-1 col-span-3 font-normal px-8 py-4 text-left">
+                    <label class="flex items-center gap-8">
+                        <input type="checkbox" data-checkbox-select-all-target="checkboxAll" />
+                        <span>Video</span>
+                    </label>
+                </th>
+                <th class="font-normal py-4 border-l text-left px-4">Visibility</th>
+                <th class="font-normal py-4 text-left px-4">Date</th>
+                <th class="font-normal py-4 text-left px-4">Views</th>
+                <th class="font-normal py-4 text-left px-4">Comments</th>
+                <th class="font-normal py-4 text-left px-4">Likes</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for obj in page_obj.object_list.all %}
+            {% with obj.item as video %}
+                <tr class="grid grid-cols-8 items-center justify-center border-b hover:bg-gray-100">
+                    <td class="col-start-1 col-span-3 px-8 py-4 flex items-center gap-8">
+                        <label class="">
+                            <input type="checkbox" data-checkbox-select-all-target="checkbox" value="{{ video.id }}" />
+                        </label>
+                        <div class="flex items-start gap-4">
+                            <img src="{% thumbnail video.thumbnail 110x70 crop %}" alt="" />
+                            <div class="flex flex-col gap-1 text-sm text-gray-600">
+                                <div class="font-semibold">{{ video.title }}</div>
+                                <div class=" line-clamp-2">
+                                    {% if video.description %}
+                                        {{ video.description }}
+                                    {% else %}
+                                        Add description
+                                    {% endif %}
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    {% if video.get_model_name == 'videodraft' %}
+                                        <a href="{% url 'studio:update' request.user.channel.uid video.id %}">Edit</a>
+                                    {% else %}
+                                        <a href="{% url 'studio:video-detail' request.user.channel.uid video.id %}">Details</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-4">
+                        {% if video.get_model_name == 'videodraft' %}
+                            <div class="flex items-center text-gray-600 gap-2">
+                                <div class="flex items-center justify-center">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" class="style-scope tp-yt-iron-icon"><path d="M14,2H4v20h16V8L14,2z M14,3.4L18.6,8H14V3.4z M5,21V3h8v6h6v12H5z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                                </div>
+                                <span class="text-sm">Draft</span>
+                            </div>
+                        {% else %}
+                            <div class="flex items-center text-green-600 gap-2">
+                                <div class="flex items-center justify-center gap-2">
+                                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M12,8.91c1.7,0,3.09,1.39,3.09,3.09S13.7,15.09,12,15.09S8.91,13.7,8.91,12S10.3,8.91,12,8.91 M12,7.91 c-2.25,0-4.09,1.84-4.09,4.09s1.84,4.09,4.09,4.09s4.09-1.84,4.09-4.09S14.25,7.91,12,7.91L12,7.91z M12,6.18 c3.9,0,7.35,2.27,8.92,5.82c-1.56,3.55-5.02,5.82-8.92,5.82c-3.9,0-7.35-2.27-8.92-5.82C4.65,8.45,8.1,6.18,12,6.18 M12,5.18 C7.45,5.18,3.57,8.01,2,12c1.57,3.99,5.45,6.82,10,6.82s8.43-2.83,10-6.82C20.43,8.01,16.55,5.18,12,5.18L12,5.18z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                                </div>
+                                <span class="text-sm">Published</span>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td class="py-4 px-4 text-sm">{{ video.created|date:"M d, Y" }}</td>
+                    <td class="py-4 px-4 text-sm text-right">{{ video.get_total_views }}</td>
+                    <td class="py-4 px-4 text-sm text-right">{{ video.comments.count }}</td>
+                    <td class="py-4 px-4 text-sm text-right">{{ video.users_like.count }}</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="border-b flex items-center justify-end">
+        <div>
+            <div>{{ start }} - {{ end }} of {{ videos.count }}</div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button title="First page" data-action="click->loader#changePageNumber" data-page="1">
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M7,6H6v12h1V6z M17.35,17.65L11.71,12l5.65-5.65l0.71,0.71L13.12,12l4.94,4.94L17.35,17.65z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+            <button title="Previous page" data-action="click->loader#changePageNumber"{% if page_obj.has_previous %} data-page="{{ page_obj.previous_page_number }}" {% else %}disabled{% endif %}>
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24"  viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g mirror-in-rtl="" class="style-scope tp-yt-iron-icon"><path d="M14.6,18.4L8.3,12l6.4-6.4l0.7,0.7L9.7,12l5.6,5.6L14.6,18.4z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+            <button title="Next page" data-action="click->loader#changePageNumber"{% if page_obj.has_next %} data-page="{{ page_obj.next_page_number }}" {% else %}disabled{% endif %}>
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24"  viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g mirror-in-rtl="" class="style-scope tp-yt-iron-icon"><path d="M9.4,18.4l-0.7-0.7l5.6-5.6L8.6,6.4l0.7-0.7l6.4,6.4L9.4,18.4z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+            <button title="Last page" data-action="click->loader#changePageNumber" data-page="{{ page_obj.paginator.num_pages }}">
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M18,18h-1V6h1V18z M5.65,7.06L10.59,12l-4.94,4.94l0.71,0.71L12,12L6.36,6.35L5.65,7.06z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+        </div>
+    </div>
+{% else %}
+    <div class="py-16 text-center flex flex-col items-center justify-center h-full">
+        <img src="https://www.gstatic.com/youtube/img/creator/no_content_illustration_v3.svg" alt=""/>
+        <p class="text-gray-700">No content available</p>
+    </div>
+{% endif %}

@@ -1,0 +1,29 @@
+<turbo-frame id="{{ request.turbo.frame }}">
+<div>
+    <header class="flex items-center justify-between px-4 py-2">
+        <h2>Channel Trailer</h2>
+        <button type="button" class="flex items-center justify-center p-2 hover:bg-gray-100 hover:rounded-full" data-action="click->modal#close:prevent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 72 72"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m17.5 17.5l37 37m0-37l-37 37"/></svg>
+        </button>
+    </header>
+    <video controls poster="{{ video.thumbnail.url }}" class="w-full aspect-video bg-black">
+        <source src='http://localhost:8000/api/stream?path={{ video.source.name }}' type="{{ video.type }}">
+    </video>
+    <div class="px-4 py-2">
+        <div class="flex items-center justify-between my-2">
+            <div class="text-xl font-semibold">{{ video.title }}</div>
+            <div class="flex items-center gap-2 text-sm">
+                <div>{{ video.get_total_views }} view{{ video.get_total_views|pluralize }}</div>
+                <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                <div>{{ video.users_like.count }} like{{ video.users_like.count|pluralize }}</div>
+                <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                <div>{{ video.comments.count }} comment{{ video.comments.count|pluralize }}</div>
+            </div>
+        </div>
+        <div class="text-sm">
+            <p class="line-clamp-2 text-gray-700">{{ video.description }}</p>
+            <p class="mt-2"><a href="{{ video.get_absolute_url }}" class="inline-block text-yellow-500">More detail</a></p>
+        </div>
+    </div>
+</div>
+</turbo-frame>

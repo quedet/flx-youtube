@@ -1,0 +1,84 @@
+@use "../../foundation/breakpoints" as breakpoints;
+@import "home";
+@import "about";
+
+.yt--channel {
+  .yt--channel--profile {
+    @apply py-4 px-4;
+
+    @include breakpoints.desktop {
+      @apply flex items-start justify-between py-8 px-16;
+    }
+
+    .yt--channel--profile--container {
+      @apply flex items-start gap-6;
+
+      img {
+        @include breakpoints.phone-only {
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      .yt--channel--profile--info {
+        @apply flex flex-col w-full gap-4;
+
+        @include breakpoints.desktop {
+          @apply flex-row justify-between items-start;
+        }
+
+        .information--details {
+          @apply flex flex-col gap-2;
+        }
+      }
+    }
+  }
+
+  .yt--channel--navbar {
+    .yt--channel--navbar--menu {
+      @apply flex items-center border-b;
+
+      @include breakpoints.tablet-and-beyond {
+        @apply px-16 text-sm font-semibold text-gray-500 overflow-x-hidden;
+      }
+
+      .menu--item {
+        .menu--item--link {
+          @apply inline-block text-center hover:bg-gray-100 text-black;
+
+          &.active {
+            @apply border-b-4 border-gray-600 font-semibold;
+          }
+
+          @include breakpoints.tablet-and-beyond {
+            @apply py-3 px-14;
+          }
+
+          @include breakpoints.phone-only {
+            @apply text-xs px-6 py-3;
+          }
+        }
+      }
+    }
+
+    .yt--channel--navbar--header {
+      @apply sticky top-12 bg-white z-10;
+
+      @include breakpoints.phone-only {
+        @apply top-0;
+      }
+    }
+
+    .yt--channel--content {
+      @apply py-4;
+
+      @include breakpoints.phone-only {
+        @apply px-4;
+      }
+
+      @include breakpoints.tablet-and-beyond {
+        @apply px-16;
+      }
+    }
+  }
+}

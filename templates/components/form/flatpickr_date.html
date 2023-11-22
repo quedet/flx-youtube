@@ -1,0 +1,12 @@
+<div>
+    <input
+        data-controller="flatpickr"
+        data-flatpickr-enable-time="false"
+        type="text"
+        name="{{ widget.name }}"
+        class="textinput py-2 leading-normal text-gray-700 bg-white px-4 appearance-none
+        focus:outline-none rounded-lg w-full border-gray-300 block border"
+        {% if widget.value != None %}value="{{ widget.value }}"{% endif %}
+        {% include "django/forms/widgets/attrs.html" %}
+    >
+</div>

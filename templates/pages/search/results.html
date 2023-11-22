@@ -1,0 +1,5 @@
+{% for video in results %}
+    {% include 'components/blocks/videos/_search.html' %}
+{% empty %}
+    No Video Matched Your Request
+{% endfor %}

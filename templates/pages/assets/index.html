@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+
+{% load assets_tags %}
+{% load humanize %}
+
+{% block content %}
+<div class="flex flex-col" data-controller="fetcher" data-fetcher-url-value="{% url 'assets:fetcher' %}">
+    <header class="yt--renderer--header py-4">
+        {% include "components/blocks/slider.html" %}
+    </header>
+    <div class="yt--renderer--content" >
+        <div class="videos--list gap-8" id="videos--list" data-fetcher-target="renderer">
+            {% include "components/blocks/videos/_placeholder.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout/studio.html" %}
+
+{% block content %}
+    {% if request.turbo.frame %}
+        <turbo-frame id="{{ request.turbo.frame }}">
+            {% with request.user.channel as channel %}
+                <div>
+                    <div class="flex items-center justify-between py-4 px-4">
+                        <div class="text-xl font-semibold">Channel Picture</div>
+                        <button type="button" class="flex items-center justify-center" data-action="click->modal#close:prevent">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/></svg>
+                        </button>
+                    </div>
+                    <div>
+                        <form method="post"
+                              action="{% url 'studio:customization-branding-picture' channel.uid %}"
+                              data-controller="dragdrop"
+                              data-dragdrop-url-value="{% url 'studio:customization-branding-picture' channel.uid %}"
+                              enctype="multipart/form-data"
+                              data-action="submit->dragdrop#sendRequest"
+                              data-crop-x="{{ picture.cropX }}"
+                              data-crop-y="{{ picture.cropY }}"
+                              data-crop-width="{{ picture.cropWidth }}"
+                              data-crop-height="{{ picture.cropHeight }}"
+                        >
+                            {% csrf_token %}
+
+                            <div class="preview" data-dragdrop-target="preview">
+                                <img src="{{ channel.picture.original.url }}" alt="" class="preview-img aspect-video object-contain" />
+                            </div>
+                            <div class="flex items-center gap-4 px-4 py-4">
+                                <label for="{{ form.original.id_for_label }}" class="cursor-pointer text-blue-500 font-semibold text-sm">
+                                    Change
+                                    <input type="file" hidden name="original" value="{{ form.instance.original }}" accept="image/*" id="{{ form.original.id_for_label }}" data-action="input->dragdrop#changeImage" />
+                                </label>
+                                <button type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endwith %}
+        </turbo-frame>
+    {% endif %}
+{% endblock %}

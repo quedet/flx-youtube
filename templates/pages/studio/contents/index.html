@@ -1,0 +1,31 @@
+{% extends "layout/studio.html" %}
+
+{% block content %}
+    {% with request.user.channel as channel %}
+        <div>
+            <div class="px-8 pt-6 pb-4">
+                <div class="text-2xl font-semibold">Channel content</div>
+            </div>
+            <div data-controller="loader" data-loader-url-value="{% url 'studio:content' channel.uid %}" data-loader-section-value="{{ request.GET.section|default:'videos' }}" data-loader-pagination-value="true" data-loader-page-value="{{ request.GET.page|default:'1' }}">
+                <div class="flex items-center text-sm gap-6 px-8">
+                    <div>
+                        <button type="button" data-action="click->loader#changePageSection" data-section="videos" class="inline-block text-blue-500 font-semibold py-4">Videos</button>
+                    </div>
+                    <div>
+                        <button type="button" data-action="click->loader#changePageSection" data-section="lives" class="inline-block text-gray-600 font-semibold py-4">Live</button>
+                    </div>
+                    <div>
+                        <button type="button" data-action="click->loader#changePageSection" data-section="playlists" class="inline-block text-gray-600 font-semibold py-4">Playlists</button>
+                    </div>
+                    <div>
+                        <button type="button" data-action="click->loader#changePageSection" data-section="podcasts" class="inline-block text-gray-600 font-semibold py-4">Podcasts</button>
+                    </div>
+                    <div>
+                        <button type="button" data-action="click->loader#changePageSection" data-section="promotions" class="inline-block text-gray-600 font-semibold py-4">Promotions</button>
+                    </div>
+                </div>
+                <div data-loader-target="renderer"></div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}

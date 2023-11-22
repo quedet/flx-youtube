@@ -1,0 +1,112 @@
+@use "../../foundation/breakpoints" as breakpoints;
+@import "details";
+
+.yt--studio {
+  width: 100%;
+  height: 100vh;
+
+  @include breakpoints.tablet-and-beyond {
+    overflow: hidden;
+  }
+
+  .yt--studio--container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 63px repeat(12, 1fr);
+
+    @include breakpoints.tablet-only {
+      grid-template-columns: 75px 1fr;
+    }
+
+    .yt--studio--header {
+      width: 100%;
+      grid-column: 1 / -1;
+      grid-row: 1;
+
+      @apply py-1 bg-white shadow-md;
+    }
+
+    .yt--studio--aside {
+      grid-column: 1;
+      grid-row: 2 / -1;
+
+      @apply border-r;
+
+      .yt--studio--aside--container {
+        @apply flex flex-col gap-4 my-2;
+
+        .yt--studio--aside--header {
+          .channel--image--large {
+            @apply flex flex-col justify-center items-center gap-4;
+          }
+
+          .channel--image--small {
+            @apply px-6 py-3;
+          }
+
+          @include breakpoints.desktop {
+            .channel--image--small {
+              @apply hidden;
+            }
+          }
+
+          @include breakpoints.tablet-and-above {
+            .channel--image--large {
+              @apply hidden;
+            }
+          }
+        }
+
+        .yt--studio--aside--menu {
+          .navbar--item {
+            .navbar--link {
+              @apply relative flex items-center gap-6;
+              @apply hover:bg-gray-100 px-6 py-3 text-gray-600;
+
+              .yt--icon {
+                @apply flex items-center justify-center;
+              }
+
+              .yt--text {
+                @apply font-semibold text-sm;
+
+                @include breakpoints.tablet-and-above {
+                  @apply hidden;
+                }
+              }
+
+              &.active {
+                @apply relative text-red-600 bg-gray-100;
+
+                &::after {
+                  content: "";
+                  width: 4px;
+
+                  @apply h-full bg-red-600 absolute top-0 left-0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @include breakpoints.phone-only {
+        @apply hidden;
+      }
+    }
+
+    .yt--studio--main {
+      grid-column: 2 / -1;
+      grid-row: 2 / -1;
+
+      @include breakpoints.tablet-and-beyond {
+        overflow: auto;
+      }
+
+      @include breakpoints.phone-only {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}

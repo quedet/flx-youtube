@@ -1,0 +1,89 @@
+@use "../../foundation/breakpoints" as breakpoints;
+
+.yt--page.page--watching {
+  .yt--page--container {
+    .yt--main--content {
+      padding: 1rem 1.5rem;
+
+      .yt--aside {
+        display: none;
+      }
+
+      .yt--content {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .yt--video--details {
+      @include breakpoints.tablet-and-above {
+        @apply flex flex-col gap-4;
+      }
+
+      @include breakpoints.desktop {
+        @apply grid grid-cols-6 gap-4;
+      }
+
+      .yt--related--videos {
+        @apply flex flex-col gap-4;
+
+        @include breakpoints.desktop {
+          @apply col-start-5 col-end-[-1];
+        }
+      }
+
+      .yt--video--streaming {
+        @apply flex flex-col gap-4;
+
+        @include breakpoints.desktop {
+          @apply col-start-1 col-end-5;
+        }
+
+        .yt--streaming--section--item {
+          &.comments--section {
+            @apply flex flex-col gap-4;
+
+            .section--item {
+              &.section--item--header {
+                @apply flex items-center gap-4;
+              }
+
+              &.section--item--form {
+                .section--item--form--container {
+                  @apply flex items-start gap-4;
+                }
+              }
+
+              .section--item--replies {
+                @apply flex flex-col gap-2;
+              }
+            }
+          }
+
+          &.information--section {
+            .section--item {
+              &:not(:last-child) {
+                @apply mb-4;
+              }
+
+              &.information--description {
+                @apply bg-gray-100 p-4 rounded;
+              }
+
+              &.information--action {
+                @apply flex;
+
+                @include breakpoints.tablet-and-beyond {
+                  @apply items-center justify-between;
+                }
+
+                @include breakpoints.phone-only {
+                  @apply flex-col gap-2;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+<video {% if video.thumbnail %} poster="{{ video.thumbnail.url }}"{% endif %} controls class="w-full aspect-video bg-black">
+    <source src="/api/stream/?path={{ video.source.name }}" type={{ video.type }}>
+</video>

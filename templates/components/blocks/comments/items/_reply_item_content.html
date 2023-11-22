@@ -1,0 +1,62 @@
+{% load humanize %}
+{% load thumbnail %}
+{% load guardian_tags %}
+
+<div class="yt--comment--content--header">
+    <div class="flex items-center gap-2">
+        {% if reply.user.channel %}
+            <a href="{{ reply.user.channel.get_absolute_url }}" class="hover:text-blue-500 text-sm">@{{ reply.user.channel.pseudo }}</a>
+        {% else %}
+            <a href="#" class="hover:text-blue-500 text-sm">@{{ comment.user.get_full_name }}</a>
+        {% endif %}
+        {% if reply.reply_to %}
+            <span class="w-1 h-1 rounded-full bg-gray-800"></span>
+            <span class="text-sm">@{{ reply.reply_to.user.channel.pseudo }}</span>
+        {% endif %}
+        <span class="w-1 h-1 rounded-full bg-gray-800"></span>
+        <span class="text-sm text-gray-500 hover:text-gray-800">{{ reply.created|naturaltime|capfirst }}</span>
+    </div>
+    {% get_obj_perms user for reply as "reply_perms" %}
+    <div class="yt--reply--actions" data-controller="dropdown" data-action="click->dropdown#toggle click@window->dropdown#hide">
+        <div id="dropdown-button" class="relative inline-block">
+            <button tabindex="0" data-dropdown-target="button" class="inline-block select-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024"><path fill="currentColor" d="M456 231a56 56 0 1 0 112 0a56 56 0 1 0-112 0zm0 280a56 56 0 1 0 112 0a56 56 0 1 0-112 0zm0 280a56 56 0 1 0 112 0a56 56 0 1 0-112 0z"/></svg>
+            </button>
+            <div data-dropdown-target="menu"
+                 data-transition-enter="transition ease-out duration-200"
+                 data-transition-enter-from="opacity-0 translate-y-1"
+                 data-transition-enter-to="opacity-100 translate-y-0"
+                 data-transition-leave="transition ease-in duration-150"
+                 data-transition-leave-from="opacity-100 translate-y-0"
+                 data-transition-leave-to="opacity-0 translate-y-1"
+                 class="hidden absolute top-4 right-0 z-10 mt-5 flex w-screen max-w-max">
+                <div class="text-sm bg-white shadow-lg rounded border overflow-hidden w-32">
+                    {% if "delete_reply" in reply_perms %}
+                        <span data-action="click->assets#deleteComment" data-id="{{ reply.id }}" data-model="{{ reply.get_model_name }}" class='cursor-pointer no-underline block pl-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-no-wrap'>Delete</span>
+                    {% endif %}
+                    {% if "change_reply" in reply_perms %}
+                        <span data-action="click->assets#displayCommentEditionForm" data-id="{{ reply.id }}" data-model="{{ reply.get_model_name }}" class='no-underline block cursor-pointer pl-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-no-wrap'>Edit</span>
+                    {% endif %}
+                    <a href="#" class='no-underline block pl-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-no-wrap'>Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    {{ reply.content|linebreaks }}
+</div>
+{% if request.user.is_authenticated %}
+    <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2" id="yt-reply-{{ reply.id }}-like--action">
+            {% if user in reply.users_like.all %}
+                {% include "components/blocks/comments/thumbs/_liked.html" with obj=reply %}
+            {% elif user in reply.users_dislike.all %}
+                {% include "components/blocks/comments/thumbs/_disliked.html" with obj=reply %}
+            {% else %}
+                {% include "components/blocks/comments/thumbs/_like.html" with obj=reply %}
+            {% endif %}
+        </div>
+        <button data-action="click->assets#displayCommentReplyForm" data-id="{{ reply.id }}" data-model="{{ reply.get_model_name }}" id="video-comment-{{ reply.id }}-close-button">Reply</button>
+    </div>
+{% endif %}

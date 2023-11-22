@@ -1,0 +1,133 @@
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% with request.user.channel as channel %}
+<form data-loader-target="form" method="post" enctype="multipart/form-data" action="{% url 'studio:customization-branding' request.user.channel.uid %}" class="flex flex-col gap-8">
+    {% csrf_token %}
+    <div>
+        <label for="id_picture">Picture</label>
+        <p class="my-1 text-sm text-gray-800">Your profile picture will appear where your channel is presented on YouTube, like next to your videos and comments</p>
+        <div class="flex items-start gap-8 mt-3">
+            <div class="basis-1/4 bg-gray-100">
+                {% if channel.picture %}
+                    {% if channel.picture.cropped %}
+                        <img src="{% thumbnail channel.picture.cropped 125x125 %}" alt="" class="rounded-full block mx-auto my-4"/>
+                    {% else %}
+                        <img src="{{ channel.picture.original.url }}" alt="" class="rounded-full block mx-auto my-4"/>
+                    {% endif %}
+                {% else %}
+                    <img src="https://placehold.co/125x125?text=Hello+World" alt="" class="rounded-full block mx-auto my-4"/>
+                {% endif %}
+            </div>
+            <div class="basis-3/4">
+                <p class="text-sm mb-4 text-gray-800">It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file. Make sure your picture follows the YouTube Community Guidelines.</p>
+                <div class="flex items-center gap-2">
+                    <div data-controller="modal"
+                         data-modal-url-value="{% url 'studio:customization-branding-picture' channel.uid %}"
+                         data-action="keydown.esc->modal#close turbo:submit-end->modal#closeOnSuccessSubmit" tabindex="-1" class="relative z-10">
+                        <button type="button" data-action="click->modal#open" class="cursor-pointer text-blue-500 font-semibold text-sm">CHANGE</button>
+                        <!-- Modal Background -->
+                        <div class="hidden fixed inset-0 bg-black bg-opacity-80 overflow-y-auto flex items-center justify-center"
+                             data-modal-target="background"
+                             data-action="click->modal#closeBackground"
+                             data-transition-enter="transition-all ease-in-out duration-300"
+                             data-transition-enter-from="bg-opacity-0"
+                             data-transition-enter-to="bg-opacity-80"
+                             data-transition-leave="transition-all ease-in-out duration-300"
+                             data-transition-leave-from="bg-opacity-80"
+                             data-transition-leave-to="bg-opacity-0">
+                            <!-- Modal Container -->
+                            <div data-modal-target="container" class="max-h-screen w-full max-w-lg relative">
+                                <!-- Modal Card -->
+                                <div class="m-1 bg-white rounded shadow">
+                                    <div>
+                                        <turbo-frame id="branding_picture" data-modal-target="modalContent" lazy="true"></turbo-frame>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="text-blue-500 font-semibold text-sm">REMOVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>Banner Picture</div>
+        <p class="my-1 text-sm text-gray-800">This image will appear across the top of your channel</p>
+        <div class="flex items-start gap-8 mt-3">
+            <div class="basis-1/4">
+                {% if channel.banner %}
+                    {% if channel.banner.cropped %}
+                        <img src="{{ channel.banner.cropped.url }}" alt="" class="py-4 w-full block my-auto"/>
+                    {% else %}
+                        <img src="{{ channel.banner.original.url }}" alt="" class="aspect-video block mx-auto my-4"/>
+                    {% endif %}
+                {% else %}
+                    <img src="https://placehold.co/125x125?text=Hello+World" alt="" class="rounded-full block mx-auto my-4"/>
+                {% endif %}
+            </div>
+            <div class="basis-3/4">
+                <p class="text-sm mb-4 text-gray-800">For the best results on all devices, use an image that’s at least 2048 x 1152 pixels and 6MB or less.</p>
+                <div class="flex items-center gap-2">
+
+                    <div data-controller="modal"
+                         data-modal-url-value="{% url 'studio:customization-branding-banner' channel.uid %}"
+                         data-action="keydown.esc->modal#close turbo:submit-end->modal#closeOnSuccessSubmit" tabindex="-1" class="relative z-10">
+                        <button type="button" data-action="click->modal#open" class="cursor-pointer text-blue-500 font-semibold text-sm">CHANGE</button>
+                        <!-- Modal Background -->
+                        <div class="hidden fixed inset-0 bg-black bg-opacity-80 overflow-y-auto flex items-center justify-center"
+                             data-modal-target="background"
+                             data-action="click->modal#closeBackground"
+                             data-transition-enter="transition-all ease-in-out duration-300"
+                             data-transition-enter-from="bg-opacity-0"
+                             data-transition-enter-to="bg-opacity-80"
+                             data-transition-leave="transition-all ease-in-out duration-300"
+                             data-transition-leave-from="bg-opacity-80"
+                             data-transition-leave-to="bg-opacity-0">
+                            <!-- Modal Container -->
+                            <div data-modal-target="container" class="max-h-screen w-full max-w-lg relative">
+                                <!-- Modal Card -->
+                                <div class="m-1 bg-white rounded shadow">
+                                    <div>
+                                        <turbo-frame id="branding_picture" data-modal-target="modalContent" lazy="true"></turbo-frame>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="text-blue-500 font-semibold text-sm">REMOVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <header>
+            <h3>Video watermark</h3>
+            <p class="my-1 text-sm text-gray-800">The watermark will appear on your videos in the right-hand corner of the video player</p>
+        </header>
+        <div class="flex items-start gap-8 mt-3">
+            <div class="basis-1/4 h-28 bg-gray-100" id="watermark-preview-container" style="background-image:url('https://www.gstatic.com/youtube/img/creator/channel/branding_settings_video_watermark_player_v3.svg'); background-size: contain; background-repeat: no-repeat; background-position: center;">
+                <div class="w-full">
+                    <div class="style-scope ytcp-video-watermark-upload">
+                        <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block; width: 24px; height: 24px;">
+                            <g version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" class="style-scope tp-yt-iron-icon">
+                                <path d="M3,5.71V4.29L4.29,3h1.41L3,5.71z M13.71,3h-1.41L3,12.29v1.41L13.71,3z M3.71,21L21,3.71V3h-0.71L3,20.29V21H3.71z M11.71,21L21,11.71v-1.41L10.29,21H11.71z M19.71,21L21,19.71v-1.41L18.29,21H19.71z" class="style-scope tp-yt-iron-icon"></path>
+                            </g>
+                        </svg>
+                    </div>
+                <div>
+            </div>
+        </div>
+            </div>
+            <div class="basis-3/4">
+                <p class="text-sm mb-4 text-gray-800">An image that’s 150 x 150 pixels is recommended. Use a PNG, GIF (no animations), BMP, or JPEG file that’s 1MB or less.</p>
+                <div>
+                    <button class="text-blue-500 font-semibold text-sm">UPLOAD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endwith %}

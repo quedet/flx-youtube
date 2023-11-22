@@ -1,0 +1,27 @@
+<form method="post"
+      {% if comment %}
+        data-action="submit->assets#editComment" data-id="{{ comment.id }}" data-model="{{ comment.get_model_name }}"
+      {% else %}
+        data-action="submit->assets#commentVideo" data-uid="{{ video.uid }}"
+      {% endif %}
+      class="yt--comment--form">
+    {% csrf_token %}
+    <textarea
+            name="content"
+            id="content"
+            data-action="input->assets#onCommentInputChange"
+            placeholder="Add a comment" class="yt--comment--form--input"
+            data-controller="textarea-autogrow"
+            data-textarea-autogrow-resize-debounce-delay-value="500"
+            autofocus
+    >{{ comment.content }}</textarea>
+    <div>
+        {% if comment %}
+            <button type="reset" class="text-gray-800 px-3 py-2 rounded text-sm" data-action="click->assets#closeCommentEditionForm" data-id="{{ comment.id }}" data-model="{{ comment.get_model_name }}">Close</button>
+            <button type="submit" class="yt--comment--form--submit text-sm" id="comment-submit-button" disabled>Edit</button>
+        {% else %}
+            <button type="reset" class="text-gray-800 px-3 py-2 rounded text-sm" data-action="click->assets#closeCommentForm" data-uid="{{ video.uid }}">Close</button>
+            <button type="submit" class="yt--comment--form--submit text-sm" id="comment-submit-button" disabled>Comment</button>
+        {% endif %}
+    </div>
+</form>

@@ -1,0 +1,21 @@
+.yt--comment--form {
+  @apply flex flex-col gap-2 w-full;
+
+  .yt--comment--form--input {
+    @apply border border-gray-300 rounded;
+  }
+
+  .yt--comment--form--submit {
+    @apply bg-gray-500 text-white px-3 py-2 rounded text-sm;
+
+    &.active {
+      @apply bg-blue-500;
+    }
+  }
+}
+
+.yt--comment--item {
+  .yt--comment--form {
+    @apply pt-3;
+  }
+}

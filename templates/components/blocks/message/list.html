@@ -1,0 +1,8 @@
+<div id="upload--renderer--message">
+    {% for message in messages %}
+    <div data-controller="alert" data-alert-remove-delay-value="0" >
+        {{ message|safe }}
+    <button data-action="alert#close"></button>
+    </div>
+{% endfor %}
+</div>

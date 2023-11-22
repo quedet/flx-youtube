@@ -1,0 +1,25 @@
+@use "../../foundation/breakpoints" as breakpoints;
+
+.yt--channel--content--container.yt--channel--home {
+  @apply flex flex-col gap-6 py-4;
+
+  .yt--channel--content--section {
+    &.yt--channel--trailer {
+      @apply flex;
+
+      @include breakpoints.tablet-and-beyond {
+        @apply items-start gap-12;
+      }
+
+      @include breakpoints.phone-only {
+        @apply flex-col gap-4;
+      }
+    }
+
+    .yt--grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+      gap: 1rem;
+    }
+  }
+}

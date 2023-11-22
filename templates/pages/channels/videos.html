@@ -1,0 +1,7 @@
+{% extends 'pages/channels/index.html' %}
+
+{% block channel_content %}
+<div class="grid grid-cols-4 gap-4" data-controller="fetcher" data-fetcher-url-value="{% url 'channel:fetch-channel-videos' channel.pseudo %}" data-fetcher-target="renderer">
+    {% include "components/blocks/videos/_lists.html" %}
+</div>
+{% endblock %}

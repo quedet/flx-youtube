@@ -1,0 +1,20 @@
+{% load thumbnail %}
+{% load humanize %}
+
+<div class="yt--video yt--video--card select-none" data-action="mouseenter->assets#enablePreview mouseleave->assets#disablePreview" data-uid="{{ video.uid }}">
+    <a href="{% url 'assets:detail' %}?v={{ video.uid }}" class="block aspect-video mb-4 relative" id="yt--video--{{ video.uid }}">
+        {% include 'components/blocks/videos/_thumbnail.html' with video=video %}
+    </a>
+    <div class="flex items-start gap-4">
+        {% if not on_channel %}
+            <a href="{{ video.author.channel.get_absolute_url }}" title="{{ video.author.channel.name }}"><img src="{% thumbnail video.author.channel.picture.cropped 40x40 %}" alt="" class="rounded-full"/></a>
+        {% endif %}
+        <div class="flex flex-col gap-1">
+            <a href="{% url 'assets:detail' %}?v={{ video.uid }}" class="font-semibold line-clamp-2">{{ video.title }}</a>
+            {% if not on_channel %}
+                <a href="{{ video.author.channel.get_absolute_url }}" class="text-sm text-gray-600" title="{{ video.author.channel.name }}">{{ video.author.channel.name }}</a>
+            {% endif %}
+            <span class="flex items-center gap-2 text-sm text-gray-600"><span>{{ video.get_total_views }} view{{ video.get_total_views|pluralize }}</span><span class="w-1 h-1 bg-gray-500 rounded-full"></span><span>{{ video.created|naturaltime|capfirst }}</span></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+{% load thumbnail %}
+
+{% if page_obj.object_list.count > 0 %}
+    <table data-controller="checkbox-select-all" class="yt--table">
+        <thead class="yt--table--header">
+            <tr class="yt--table--rows{% if is_details %} yt--table--rows--no--video--cel{% endif %}">
+                <th class="yt--table--cols yt---col--comment">
+                    <label class="flex items-center gap-8">
+                        <input type="checkbox" data-checkbox-select-all-target="checkboxAll" />
+                        <span>User</span>
+                    </label>
+                </th>
+                {% if not is_details %}
+                    <th class="yt--table--cols yt---col--video">Video</th>
+                {% endif %}
+                <th class="yt--table--cols yt---col--date">Date</th>
+                <th class="yt--table--cols yt---col--likes">Likes</th>
+            </tr>
+        </thead>
+        <tbody class="yt--table--body">
+        {% for comment in page_obj.object_list.all %}
+                <tr class="yt--table--rows{% if is_details %} yt--table--rows--no--video--cel{% endif %}">
+                    <td class="yt--table--cols yt---col--comment">
+                        <label class="">
+                            <input type="checkbox" data-checkbox-select-all-target="checkbox" value="{{ comment.id }}" />
+                        </label>
+                        <div class="flex items-start gap-4">
+                            <img src="{% thumbnail comment.user.profile 25x25 crop %}" alt="" class="rounded-full" />
+                            <div class="flex flex-col gap-1 text-sm text-gray-600">
+                                <div class="font-semibold">{{ comment.user.get_full_name }}</div>
+                                <div class=" line-clamp-2">
+                                    {{ comment.content }}
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <a href="#">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    {% if not is_details %}
+                        <td class="yt--table--cols yt---col--video">{{ comment.video.title }}</td>
+                    {% endif %}
+                    <td class="yt--table--cols yt---col--date">{{ comment.created|date:"M d, Y" }}</td>
+                    <td class="yt--table--cols yt---col--likes">{{ comment.users_like.count }}</td>
+                </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="border-b flex items-center justify-end">
+        <div>
+            <div>{{ start }} - {{ end }} of {{ comments.count }}</div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button title="First page" data-action="click->loader#changePageNumber" data-page="1">
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M7,6H6v12h1V6z M17.35,17.65L11.71,12l5.65-5.65l0.71,0.71L13.12,12l4.94,4.94L17.35,17.65z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+            <button title="Previous page" data-action="click->loader#changePageNumber"{% if page_obj.has_previous %} data-page="{{ page_obj.previous_page_number }}" {% else %}disabled{% endif %}>
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24"  viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g mirror-in-rtl="" class="style-scope tp-yt-iron-icon"><path d="M14.6,18.4L8.3,12l6.4-6.4l0.7,0.7L9.7,12l5.6,5.6L14.6,18.4z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+            <button title="Next page" data-action="click->loader#changePageNumber"{% if page_obj.has_next %} data-page="{{ page_obj.next_page_number }}" {% else %}disabled{% endif %}>
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24"  viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g mirror-in-rtl="" class="style-scope tp-yt-iron-icon"><path d="M9.4,18.4l-0.7-0.7l5.6-5.6L8.6,6.4l0.7-0.7l6.4,6.4L9.4,18.4z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+            <button title="Last page" data-action="click->loader#changePageNumber" data-page="{{ page_obj.paginator.num_pages }}">
+                <div class="flex items-center justify-center p-4">
+                    <svg width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope tp-yt-iron-icon" style="pointer-events: none; display: block;"><g class="style-scope tp-yt-iron-icon"><path d="M18,18h-1V6h1V18z M5.65,7.06L10.59,12l-4.94,4.94l0.71,0.71L12,12L6.36,6.35L5.65,7.06z" class="style-scope tp-yt-iron-icon"></path></g></svg>
+                </div>
+            </button>
+        </div>
+    </div>
+{% else %}
+    <div class="py-16 text-center flex flex-col items-center justify-center h-full">
+        <img src="https://www.gstatic.com/youtube/img/creator/no_content_illustration_v3.svg" alt=""/>
+        <p class="text-gray-700">No content available</p>
+    </div>
+{% endif %}

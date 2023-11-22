@@ -1,0 +1,26 @@
+{% load humanize %}
+{% load thumbnail %}
+{% load guardian_tags %}
+
+<div id="video-{{ reply.reference.video.uid }}-comment-{{ reply.id }}-reply" class="yt--comment--item yt--reply">
+    <div class="yt--comment--container">
+        {% if reply.user.channel %}
+            <a class="yt--comment--profile" href="{{ reply.user.channel.get_absolute_url }}">
+                {% if reply.user.channel.picture.cropped %}
+                    <img src="{% thumbnail reply.user.channel.picture.cropped 45x45 %}" class="rounded-full" alt="{{ reply.user.channel.pseudo }} thumbnail" />
+                {% else %}
+                    <img src="{% thumbnail reply.user.channel.picture.original 45x45 crop %}" class="rounded-full" alt="" />
+                {% endif %}
+            </a>
+        {% else %}
+            <a class="yt--comment--profile" href="#">
+                <img src="{% thumbnail reply.user.profile 45x45 crop %}" class="rounded-full" alt="" />
+            </a>
+        {% endif %}
+        <div class="yt--comment--content" >
+            <div class="yt--comment--content--wrapper" id="video-{{ reply.reference.video.uid }}-comment-{{ reply.id }}-reply-content">
+                {% include "components/blocks/comments/items/_reply_item_content.html" %}
+            </div>
+        </div>
+    </div>
+</div>

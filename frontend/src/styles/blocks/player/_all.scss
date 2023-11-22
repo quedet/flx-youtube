@@ -1,0 +1,50 @@
+.yt--player {
+  @apply relative;
+
+  &.yt--player-mini {
+    .yt--player--volume-mute {
+      @apply absolute top-0 left-0 z-0 m-2;
+
+      .yt--mute--btn {
+        @apply flex items-center justify-center px-3 py-2 bg-gray-800 text-white;
+      }
+    }
+
+    .yt--player--controls {
+      @apply absolute bottom-0 left-0 w-full;
+
+      .yt--player--timer {
+        @apply text-xs px-3 py-2 text-white;
+      }
+
+      .yt--progress {
+        @apply flex bg-gray-100 bg-opacity-25 h-1 w-full;
+
+        .yt--progress__filled,
+        .yt--progress__prefetch {
+          @apply basis-0 h-full;
+        }
+
+        .yt--progress__filled {
+          @apply bg-red-500;
+        }
+
+        .yt--progress__prefetch {
+          @apply bg-gray-100;
+        }
+
+        &:hover {
+          @apply h-2;
+        }
+      }
+
+      .yt--actions {
+        @apply flex items-center justify-between px-2 py-3;
+
+        .yt--actions--group {
+          @apply flex items-center text-white gap-3;
+        }
+      }
+    }
+  }
+}

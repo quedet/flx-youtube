@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}
+
+<turbo-frame id="{{ request.turbo.frame }}">
+    <header class="flex items-center justify-between px-4 py-2">
+        <h2>Add a new playlist</h2>
+        <button type="button" class="flex items-center justify-center p-2 hover:bg-gray-100 hover:rounded-full" data-action="click->modal#close:prevent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 72 72"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m17.5 17.5l37 37m0-37l-37 37"/></svg>
+        </button>
+    </header>
+    <div class="text-left px-4 py-2">
+        <form method="post" action="{% url 'studio:content-playlists-creation' request.user.channel.uid %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <div class="flex justify-end items-center flex-wrap mt-6">
+                <button type="submit" class="">Send</button>
+            </div>
+        </form>
+    </div>
+</turbo-frame>

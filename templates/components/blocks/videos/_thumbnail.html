@@ -1,0 +1,4 @@
+{% load thumbnail %}
+
+<img src="{% thumbnail video.thumbnail 355x190 crop %}" class="rounded-lg w-full aspect-video bg-black" alt=""/>
+<span class="absolute right-0 bottom-0 text-white font-semibold rounded text-xs m-1 bg-black bg-opacity-80 px-1 py-1">{{ video.duration }}</span>

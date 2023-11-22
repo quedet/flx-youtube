@@ -1,0 +1,9 @@
+<div class="cursor-pointer bg-gray-100 px-3 py-2 text-sm hover:bg-blue-500 hover:text-white transition-all rounded"
+     data-action="click->studio#setTopicItem click->studio#setTopicToList"
+     id="yt--topic--{{ topic.id }}"
+     data-uid="{{ obj.uid }}"
+     data-id="{{ topic.id }}"
+     data-model="{{ obj.get_model_name }}"
+>
+    {{ topic.name }}
+</div>

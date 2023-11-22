@@ -1,0 +1,19 @@
+.yt--comment--item {
+  @apply pt-3.5;
+
+  .yt--comment--container {
+    @apply flex items-start gap-4;
+
+    .yt--comment--content {
+      @apply w-full;
+
+      .yt--comment--content--wrapper {
+        @apply flex flex-col gap-1;
+
+        .yt--comment--content--header {
+          @apply flex items-center justify-between;
+        }
+      }
+    }
+  }
+}

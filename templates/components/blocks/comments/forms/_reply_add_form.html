@@ -1,0 +1,32 @@
+<form method="post"
+      class="yt--comment--form"
+      data-id="{{ object.id }}"
+      data-model="{{ object.get_model_name }}"
+      data-action="submit->assets#closeCommentReplyForm submit->assets#replyComment"
+
+      {% if object.reference %}
+        id="video-{{ object.reference.video.uid }}-comment-{{ object.id }}-reply-form"
+      {% else %}
+        id="video-{{ object.video.uid }}-comment-{{ object.id }}-reply-form"
+      {% endif %}
+>
+    {% csrf_token %}
+    <textarea
+            name="content"
+            id="content"
+            data-action="input->assets#onCommentInputChange"
+            placeholder="Add a comment" class="yt--comment--form--input"
+            data-controller="textarea-autogrow"
+            data-textarea-autogrow-resize-debounce-delay-value="500"
+            autofocus
+    ></textarea>
+    <div>
+        <button type="reset"
+                class="text-gray-800 px-3 py-2 rounded"
+                data-action="click->assets#closeCommentReplyForm"
+                data-id="{{ object.id }}"
+                data-model="{{ object.get_model_name }}"
+        >Close</button>
+        <button type="submit" class="yt--comment--form--submit" id="comment-submit-button" disabled>Reply</button>
+    </div>
+</form>

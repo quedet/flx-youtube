@@ -1,0 +1,45 @@
+@use "../../foundation/breakpoints" as breakpoints;
+
+.yt--channel--content--container.yt--channel--about {
+  @apply py-8;
+
+  @include breakpoints.desktop {
+    @apply flex items-start gap-32;
+
+    .yt--channel--content--section--left {
+      flex: 8;
+    }
+
+    .yt--channel--content--section--right {
+      flex: 4;
+    }
+  }
+
+  .yt--channel--content--section--item {
+    &:not(:last-of-type) {
+      @apply mb-6 border-b pb-4;
+    }
+
+    .yt--channel--content--section--header {
+      @apply mb-4 text-lg;
+    }
+
+    .yt--channel--content--section--body {
+      @apply text-sm;
+    }
+  }
+
+  .yt--channel--content--section--right {
+    @include breakpoints.phone-only {
+      @apply mt-6 border-t pt-4;
+    }
+
+    .yt--channel--content--section--item {
+      .yt--channel--content--section--body {
+        .yt--channel--content--section--body--item {
+          @apply mt-3 border-t pt-3;
+        }
+      }
+    }
+  }
+}

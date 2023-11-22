@@ -1,0 +1,13 @@
+{% for reply in replies %}
+    {% include "components/blocks/comments/items/_reply_item.html" with user=user %}
+{% endfor %}
+{% if next_page %}
+    <button type="button" data-action="click->comment#changePageNumber"
+            data-page="{{ next_page }}"
+            class="text-sm flex items-center gap-2 justify-center text-blue-600 px-3 py-2 hover:bg-blue-100 hover:rounded-full">
+        <svg width="24" height="24" fill="currentcolor" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: block;">
+          <path fill="none" d="M0 0h24v24H0V0z"></path><path d="M19 15l-6 6-1.42-1.42L15.17 16H4V4h2v10h9.17l-3.59-3.58L13 9l6 6z"></path>
+        </svg>
+        <span class="whitespace-nowrap">Show more replies</span>
+    </button>
+{% endif %}

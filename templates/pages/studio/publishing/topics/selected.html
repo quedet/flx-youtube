@@ -1,0 +1,12 @@
+<div id="yt--topic--{{ topic.id }}--item"
+     class="flex items-center gap-1 border text-sm"
+>
+    <span class="pl-2.5">{{ topic.name }}</span>
+    <button type="button" data-action="click->studio#removeTopicItem" class="px-2 py-2 hover:bg-gray-100 rounded-full"
+            data-uid="{{ obj.uid }}"
+            data-id="{{ topic.id }}"
+            data-model="{{ obj.get_model_name }}"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 72 72"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m17.5 17.5l37 37m0-37l-37 37"/></svg>
+    </button>
+</div>

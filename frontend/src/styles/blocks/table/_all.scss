@@ -1,0 +1,49 @@
+@import "comments";
+
+.yt--table {
+  @apply flex flex-col;
+
+  .yt--table--header {
+    @apply border-b text-sm;
+  }
+
+  .yt--table--rows {
+    @apply grid grid-cols-8;
+
+    .yt--table--cols {
+      @apply font-normal py-4 text-left px-4 text-sm;
+
+      &.yt---col--comment {
+        @apply col-start-1 col-span-3 px-8 border-r;
+      }
+
+      &.yt---col--video {
+        @apply col-span-2 px-8;
+      }
+    }
+
+    &.yt--table--rows--no--video--cel {
+      .yt--table--cols {
+        &.yt---col--comment {
+          @apply col-start-1 col-span-5 px-8;
+        }
+
+        &.yt---col--date {
+          @apply col-span-2;
+        }
+      }
+    }
+  }
+
+  .yt--table--body {
+    .yt--table--rows {
+      @apply items-center justify-center border-b hover:bg-gray-100;
+
+      .yt--table--cols {
+        &.yt---col--comment {
+          @apply flex items-center gap-8;
+        }
+      }
+    }
+  }
+}

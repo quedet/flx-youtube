@@ -1,0 +1,6 @@
+{% for thumbnail in draft.thumbnails.all %}
+    <label id="id_thumbnail_{{ forloop.counter }}" class="thumbnail--item" >
+        <input type="radio" name="thumbnails" {% if thumbnail.source == draft.thumbnail %} checked{% endif %} value="{{ thumbnail.id }}" id="id_thumbnail_{{ forloop.counter }}" data-action="change->studio#triggerSubmit" />
+        <img src="{{ thumbnail.source.url }}" alt="{{ thumbnail.alt }}" class="border border-gray-400 aspect-video rounded"/>
+    </label>
+{% endfor %}

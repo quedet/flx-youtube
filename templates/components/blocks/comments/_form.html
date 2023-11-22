@@ -1,0 +1,26 @@
+{% load thumbnail %}
+
+{% with request.user as user %}
+    {% if user.is_authenticated %}
+        <div>
+            {% if user.channel %}
+                {% with user.channel as channel %}
+                    <a href="{{ channel.get_absolute_url }}">
+                        {% if channel.picture.cropped %}
+                            <img src="{% thumbnail channel.picture.cropped 45x45 %}" class="rounded-full" alt="" />
+                        {% else %}
+                            <img src="{% thumbnail channel.picture.original 45x45 crop %}" class="rounded-full" alt="" />
+                        {% endif %}
+                    </a>
+                {% endwith %}
+            {% else %}
+                <a href="#">
+                    <img src="{% thumbnail user.profile 55x55 crop %}" alt="{{ request.user.get_full_name }}" class="rounded-full" />
+                </a>
+            {% endif %}
+        </div>
+        <div id="comment-form-renderer" class="w-full">
+            {% include "components/blocks/comments/_form_placeholder.html" %}
+        </div>
+    {% endif %}
+{% endwith %}

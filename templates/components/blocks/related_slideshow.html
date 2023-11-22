@@ -1,0 +1,19 @@
+<div data-controller="slideshow">
+    <div data-slideshow-target="paginationPrevious" data-action="click->slideshow#previousPaginationEvent">
+        <button class="flex items-center justify-center px-2 py-2 hover:bg-gray-100 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="currentColor" d="M31.884 8.366a1.25 1.25 0 0 1 0 1.768L18.018 24l13.866 13.866a1.25 1.25 0 0 1-1.768 1.768l-14.75-14.75a1.25 1.25 0 0 1 0-1.768l14.75-14.75a1.25 1.25 0 0 1 1.768 0Z"/></svg>
+        </button>
+    </div>
+    <div data-slideshow-target="slideWrapper" class="flex items-center gap-2 overflow-x-auto">
+        <div data-slideshow-target="slideItem" class="active" data-topic="all" data-action="click->fetcher#filterByTopics">All</div>
+        <div data-slideshow-target="slideItem" data-topic="{{ video.author.channel.pseudo }}" data-action="click->fetcher#filterByTopics">From {{ video.author.channel.name }}</div>
+        {% for topic in video.topics.all %}
+            <div data-slideshow-target="slideItem" data-topic="{{ topic.slug }}" data-action="click->fetcher#filterByTopics">{{ topic.name }}</div>
+        {% endfor %}
+    </div>
+    <div data-slideshow-target="paginationNext" data-action="click->slideshow#nextPaginationEvent">
+        <button class="flex items-center justify-center px-2 py-2 hover:bg-gray-100 rounded-full">
+            <svg fill="currentcolor" height="24" viewBox="0 0 24 24" width="24" focusable="false" style="pointer-events: none; display: block;"><path d="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"></path></svg>
+        </button>
+    </div>
+</div>

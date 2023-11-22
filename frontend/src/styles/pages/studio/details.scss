@@ -1,0 +1,65 @@
+@use "../../foundation/breakpoints" as breakpoints;
+
+.yt--studio--details {
+  @include breakpoints.tablet-and-beyond {
+    @apply py-8 px-8 h-full;
+  }
+
+  @include breakpoints.phone-only {
+    @apply px-4 py-4;
+  }
+
+  .yt--details--header {
+    @apply flex items-center justify-between;
+
+    @include breakpoints.phone-only {
+      @apply mb-4;
+    }
+  }
+
+  .yt--details--content {
+    @include breakpoints.phone-only {
+      @apply flex flex-col gap-2;
+
+      .yt--details--form {
+        @apply order-last flex flex-col gap-6;
+      }
+
+      .yt--details--streaming {
+        @apply order-first;
+      }
+    }
+
+    @include breakpoints.tablet-and-beyond {
+      @apply grid grid-cols-2 gap-8 py-8;
+    }
+
+    .yt--details--form {
+      @apply flex flex-col gap-6;
+    }
+  }
+
+  &.yt--studio--details--comments {
+    @include breakpoints.tablet-and-beyond {
+      @apply px-0;
+    }
+
+    .yt--details--header {
+      @apply px-6;
+    }
+
+    .yt--details--content {
+      @include breakpoints.tablet-and-beyond {
+        @apply grid grid-cols-3 gap-8 py-8;
+
+        .yt--details--form {
+          @apply col-start-1 col-span-2 gap-0;
+        }
+
+        .yt--details--streaming {
+          @apply pr-6;
+        }
+      }
+    }
+  }
+}

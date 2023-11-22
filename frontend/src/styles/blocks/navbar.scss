@@ -1,0 +1,108 @@
+@use "../foundation/breakpoints" as breakpoints;
+
+.navbar--brand {
+  @apply flex items-center;
+
+  .navbar--brand-burger {
+    padding: 8px;
+  }
+
+  .navbar--brand-logo {
+    padding: 18px 16px;
+
+    .logo--icon {
+      display: flex;
+      align-items: center;
+      width: 90px;
+      height: 20px;
+    }
+  }
+}
+
+.navbar {
+  @apply px-4 flex items-center w-full;
+
+  @include breakpoints.phone-only {
+    @apply px-2;
+  }
+
+  .navbar--brand {
+    flex: 2;
+  }
+
+  .navbar--search {
+    flex: 7;
+
+    @apply flex max-w-md border;
+  }
+
+  .navbar--menu {
+    flex: 3;
+
+    @apply justify-end flex items-center gap-2;
+
+    @include breakpoints.tablet-and-beyond {
+      .navbar--menu-item-search {
+        @apply hidden;
+      }
+    }
+  }
+
+  @include breakpoints.tablet-only {
+    .navbar--brand {
+      flex: 4;
+    }
+
+    .navbar--search {
+      flex: 4;
+    }
+
+    .navbar--menu {
+      flex: 4;
+    }
+  }
+
+  @include breakpoints.phone-only {
+    .navbar--brand {
+      flex: 6;
+    }
+
+    .navbar--search {
+      @apply hidden;
+    }
+
+    .navbar--menu {
+      flex: 6;
+    }
+  }
+}
+
+.yt--aside--navbar {
+  @apply flex flex-col py-2 px-1;
+
+  .yt--aside--item {
+    .yt--aside--item--link {
+      @apply flex items-center flex-col hover:bg-gray-100 rounded-lg py-4 gap-2 ml-1;
+
+      .yt--text {
+        font-size: 10px;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .yt--icon {
+    @apply flex items-center justify-center;
+  }
+}
+
+.yt--channel--navbar {
+  [data-controller="slideshow"] {
+    [data-slideshow-target="slideWrapper"] {
+      [data-slideshow-target="slideItem"] {
+        @apply text-sm cursor-pointer rounded;
+        @apply bg-white p-0 hover:bg-gray-200 whitespace-nowrap;
+      }
+    }
+  }
+}

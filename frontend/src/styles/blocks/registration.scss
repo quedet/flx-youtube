@@ -1,0 +1,49 @@
+@use "../foundation/breakpoints" as breakpoints;
+
+.registration-container {
+  @apply w-full;
+
+  .registration {
+    min-height: 500px;
+
+    @apply w-full max-w-md mx-auto;
+
+    @include breakpoints.tablet-and-beyond {
+      @apply border rounded px-6 py-12 w-full;
+    }
+
+    .registration--header {
+      @apply flex flex-col gap-2.5 items-center mb-10 px-2.5;
+    }
+
+    .registration--information {
+      @apply line-clamp-6 mx-2.5;
+
+      .registration--information--item {
+        @apply my-4;
+      }
+    }
+
+    [data-modal-target="container"] {
+      .registration--information {
+        @apply line-clamp-none;
+      }
+    }
+
+    .registration--form {
+      @apply flex flex-col gap-8;
+
+      .form--item {
+        @apply px-2.5;
+      }
+    }
+  }
+
+  @include breakpoints.phone-only {
+    @apply p-6;
+  }
+
+  @include breakpoints.tablet-and-beyond {
+    @apply h-screen flex justify-center items-center;
+  }
+}

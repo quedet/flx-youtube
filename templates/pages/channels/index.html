@@ -1,0 +1,128 @@
+{% extends 'layout/base.html' %}
+{% load thumbnail %}
+{% load humanize %}
+
+
+{% block title %}
+{{ channel.name }} - YouTube
+{% endblock %}
+
+{% block content %}
+<div class="yt--channel pl-2">
+    <div class="yt--channel--background">
+        {% if channel.banner.cropped %}
+            <img src="{{ channel.banner.cropped.url }}" alt="Cover"/>
+        {% else %}
+            <img src="{{ channel.banner.original.url }}" alt="Cover"/>
+        {% endif %}
+    </div>
+    <div class="yt--channel--profile">
+        <div class="yt--channel--profile--container">
+            <img src="{% thumbnail channel.picture.cropped 125x125 %}" alt="Cover" class="rounded-full"/>
+            <div class="yt--channel--profile--info">
+                <div class="information--details">
+                    <div class="text-2xl">{{ channel.name }}</div>
+                    <div class="text-sm text-gray-600 flex items-center gap-2"><span>@{{ channel.pseudo }}</span> <span class="w-1 h-1 bg-gray-600 rounded-full"></span> <span>{{ channel.followers.count }} subscriber{{ channel.followers.count|pluralize }}</span> <span class="w-1 h-1 bg-gray-600 rounded-full"></span> <span>{{ channel.videos.count }} video{{ channel.videos.count|pluralize }}</span></div>
+                    {% if channel.description %}
+                        <div class="text-gray-600">
+                            <div class="text-sm">{{ channel.description|safe|truncatechars:120 }}</div>
+                            <div><a href="{% url 'channel:about' channel.pseudo %}" class="text-sm font-semibold">Read more</a></div>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if request.user != channel.author %}
+                    <div id="subscribe--action" class="information--action--subscribe">
+                        {% if request.user in channel.followers.all %}
+                            {% include "components/blocks/thumbs/_subscribed.html" with channel=channel %}
+                        {% else %}
+                            {% include "components/blocks/thumbs/_subscribe.html" with channel=channel %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="yt--channel--navbar">
+        <div data-controller="slideshow" class="yt--channel--navbar--header">
+            <div data-slideshow-target="paginationPrevious" data-action="click->slideshow#previousPaginationEvent">
+                <button class="flex items-center justify-center px-2 py-2 hover:bg-gray-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="currentColor" d="M31.884 8.366a1.25 1.25 0 0 1 0 1.768L18.018 24l13.866 13.866a1.25 1.25 0 0 1-1.768 1.768l-14.75-14.75a1.25 1.25 0 0 1 0-1.768l14.75-14.75a1.25 1.25 0 0 1 1.768 0Z"/></svg>
+                </button>
+            </div>
+            <nav data-slideshow-target="slideWrapper" class="yt--channel--navbar--menu">
+                <div class="menu--item" data-slideshow-target="slideItem">
+                    <a href="{% url 'channel:home' channel.pseudo %}" class="menu--item--link{% if page_section == "home" %} active{% endif %}">HOME</a>
+                </div>
+                <div class="menu--item" data-slideshow-target="slideItem">
+                    <a href="{% url 'channel:videos' channel.pseudo %}" class="menu--item--link{% if page_section == "videos" %} active{% endif %}">VIDEOS</a>
+                </div>
+                <div class="menu--item" data-slideshow-target="slideItem">
+                    <a href="{% url 'channel:playlists' channel.pseudo %}" class="menu--item--link{% if page_section == "playlists" %} active{% endif %}">PLAYLISTS</a>
+                </div>
+                <div class="menu--item" data-slideshow-target="slideItem">
+                    <a href="{% url 'channel:community' channel.pseudo %}" class="menu--item--link{% if page_section == "community" %} active{% endif %}">COMMUNITY</a>
+                </div>
+                <div class="menu--item" data-slideshow-target="slideItem">
+                    <a href="{% url 'channel:about' channel.pseudo %}" class="menu--item--link{% if page_section == "about" %} active{% endif %}">ABOUT</a>
+                </div>
+            </nav>
+            <div data-slideshow-target="paginationNext" data-action="click->slideshow#nextPaginationEvent">
+                <button class="flex items-center justify-center px-2 py-2 hover:bg-gray-100 rounded-full">
+                    <svg fill="currentcolor" height="24" viewBox="0 0 24 24" width="24" focusable="false" style="pointer-events: none; display: block;"><path d="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div class="yt--channel--content">
+            {% block channel_content %}
+                <div class="yt--channel--content--container yt--channel--home">
+                {% if channel.layout.trailer %}
+                    {% with channel.layout.trailer as video %}
+                        <div class="yt--channel--content--section yt--channel--trailer">
+                            <div class="flex-[5]">
+                                <video controls poster="{{ video.thumbnail.url }}" class="w-full aspect-video bg-black">
+                                    <source src='http://localhost:8000/api/stream?path={{ video.source.name }}' type="{{ video.type }}">
+                                </video>
+                            </div>
+                            <div class="flex-[7] flex flex-col gap-4">
+                                <div class="font-semibold">{{ video.title }}</div>
+                                <div class="text-sm text-gray-800">
+                                    {{ video.get_total_views }} view{{ video.get_total_views|pluralize }}
+                                    {{ video.created|naturaltime|capfirst }}
+                                </div>
+                                {% if video.description %}
+                                    <div class="text-sm text-gray-800">
+                                        <p class="line-clamp-8">{{ video.description|linebreaks }}</p>
+                                        <p><a href="{{ video.get_absolute_url }}" class="font-semibold text-black">Read more</a></p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endwith %}
+                {% endif %}
+
+                    <div class="yt--channel--content--section yt--channel--recent">
+                        <div class="mb-4 font-semibold">Recently created</div>
+                        <div class="yt--grid">
+                            {% for video in recent_videos %}
+                                {% include "components/blocks/videos/_card.html" %}
+                            {% empty %}
+                                <div>No Videos Yet</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="yt--channel--content--section yt--channel--popular">
+                        <div class="mb-4 font-semibold">Popular Videos</div>
+                        <div class="yt--grid">
+                            {% for video in popular_videos %}
+                                {% include "components/blocks/videos/_card.html" %}
+                            {% empty %}
+                                <div>No Videos Yet</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

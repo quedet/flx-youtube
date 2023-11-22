@@ -1,0 +1,66 @@
+{{ form.non_field_errors }}
+<div class="flex flex-col gap-2">
+    <label for="{{ form.title.id_for_label }}">Title</label>
+    {{ form.title }}
+    {% if form.title.errors %}
+        <span>{{ form.title.errors }}</span>
+    {% endif %}
+</div>
+<div class="flex flex-col gap-2">
+    <label for="{{ form.description.id_for_label }}">Description</label>
+    {{ form.description }}
+    {% if form.title.errors %}
+        <span>{{ form.title.errors }}</span>
+    {% endif %}
+</div>
+<div data-controller="modal" data-action="keydown.esc->modal#close" tabindex="-1" class="relative z-10">
+    <div class="flex flex-col gap-2">
+        <label>Topics</label>
+        <button type="button" data-action="click->modal#open" class="border border-gray-400 flex items-center justify-between text-gray-600 py-2 px-4 rounded">
+            <span>Select topics</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
+                <path fill="currentColor" d="M28 4H10a2.006 2.006 0 0 0-2 2v14a2.006 2.006 0 0 0 2 2h18a2.006 2.006 0 0 0 2-2V6a2.006 2.006 0 0 0-2-2Zm0 16H10V6h18Z"/>
+                <path fill="currentColor" d="M18 26H4V16h2v-2H4a2.006 2.006 0 0 0-2 2v10a2.006 2.006 0 0 0 2 2h14a2.006 2.006 0 0 0 2-2v-2h-2Z"/>
+            </svg>
+        </button>
+    </div>
+    <!-- Modal Background -->
+    <div class="hidden fixed inset-0 bg-black bg-opacity-80 overflow-y-auto flex items-center justify-center"
+        data-modal-target="background"
+        data-action="click->modal#closeBackground"
+        data-transition-enter="transition-all ease-in-out duration-300"
+        data-transition-enter-from="bg-opacity-0"
+        data-transition-enter-to="bg-opacity-80"
+        data-transition-leave="transition-all ease-in-out duration-300"
+        data-transition-leave-from="bg-opacity-80"
+        data-transition-leave-to="bg-opacity-0">
+    <!-- Modal Container -->
+        <div data-modal-target="container" class="max-h-screen w-full max-w-lg relative">
+            <!-- Modal Card -->
+            <div class="m-1 bg-white rounded shadow">
+                <div class="p-8">
+                    <header class="flex items-center justify-between">
+                        <h2 class="text-xl mb-4">Select Topics</h2>
+                        <button type="button" data-action="click->modal#close:prevent"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/></svg></button>
+                    </header>
+                    {{ form.topics }}
+
+                    <div class="flex justify-end items-center flex-wrap mt-6">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col gap-2">
+    <div>Poster</div>
+    <div class="grid grid-cols-4 gap-2" id="thumbnails">
+        <label for="{{ form.poster.id_for_label }}" class="border border-gray-400 cursor-pointer rounded flex flex-col items-center gap-1 justify-center py-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M236 136v64a12 12 0 0 1-12 12H32a12 12 0 0 1-12-12v-64a12 12 0 0 1 12-12h48a4 4 0 0 1 0 8H32a4 4 0 0 0-4 4v64a4 4 0 0 0 4 4h192a4 4 0 0 0 4-4v-64a4 4 0 0 0-4-4h-48a4 4 0 0 1 0-8h48a12 12 0 0 1 12 12ZM82.83 74.83L124 33.66V128a4 4 0 0 0 8 0V33.66l41.17 41.17a4 4 0 1 0 5.66-5.66l-48-48a4 4 0 0 0-5.66 0l-48 48a4 4 0 0 0 5.66 5.66ZM196 168a8 8 0 1 0-8 8a8 8 0 0 0 8-8Z"/></svg>
+            <span class="text-sm text-gray-600">Upload</span>
+            <input type="file" accept="image/*" hidden name="poster" id="id_poster" />
+        </label>
+    </div>
+</div>

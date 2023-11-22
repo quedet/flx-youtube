@@ -1,0 +1,60 @@
+{% extends 'pages/channels/index.html' %}
+
+{% block channel_content %}
+<div class="yt--channel--content--container yt--channel--about">
+    <div class="yt--channel--content--section--left">
+        <div class="yt--channel--content--section--item">
+            <div class="yt--channel--content--section--header">
+                <h3>Description</h3>
+            </div>
+            {% if channel.description %}
+                <div class="yt--channel--content--section--body">{{ channel.description|safe|linebreaks }}</div>
+            {% else %}
+                <div><p>No Description Yet</p></div>
+            {% endif %}
+        </div>
+        <div class="yt--channel--content--section--item">
+            <div class="yt--channel--content--section--header">
+                <h3>Details</h3>
+            </div>
+            {% if channel.description %}
+                <div class="yt--channel--content--section--body">{{ channel.description|safe|linebreaks }}</div>
+            {% else %}
+                <div><p>No Description Yet</p></div>
+            {% endif %}
+        </div>
+        {% if channel.links.count > 0 %}
+            <div class="yt--channel--content--section--item">
+                <div class="yt--channel--content--section--header">
+                    <h3>Links</h3>
+                </div>
+                <div class="yt--channel--content--section--body flex flex-col gap-3">
+                    {% for link in channel.links.all %}
+                        <div>
+                            <div>{{ link.title }}</div>
+                            <p class="text-blue-500 line-clamp-1">
+                                <a href="{{ link.url }}">{{ link.url }}</a>
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="yt--channel--content--section--right">
+        <div class="yt--channel--content--section--item">
+            <div class="yt--channel--content--section--header">
+                <h3>Stats</h3>
+            </div>
+            <div class="yt--channel--content--section--body">
+                <div class="yt--channel--content--section--body--item">
+                    <p>Joined on {{ channel.created|date:"M d, Y" }}</p>
+                </div>
+                <div class="yt--channel--content--section--body--item">
+                    <p>{{ channel.get_total_views }} view{{ channel.get_total_views|pluralize }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

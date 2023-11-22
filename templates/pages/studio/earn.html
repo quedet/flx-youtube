@@ -1,0 +1,18 @@
+{% extends "layout/studio.html" %}
+
+{% block content %}
+    {% with request.user.channel as channel %}
+        <div>
+            <div class="px-8 pt-6 pb-4">
+                <div class="text-2xl font-semibold">Earn on YouTube</div>
+            </div>
+            <div>
+                <div class="text-center flex flex-col items-center gap-4 w-full max-w-xl mx-auto py-60">
+                    <img class="w-60" src="https://www.gstatic.com/youtube/img/creator/partnerprogram/ypp_signup_rejected_illustration.svg" alt="" />
+                    <div class="font-semibold text-2xl">Monetization not available in your location</div>
+                    <p class="text-gray-600">The YouTube Partner Program is not available in your current location Côte d’Ivoire. If this is mistake, please update location.</p>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}

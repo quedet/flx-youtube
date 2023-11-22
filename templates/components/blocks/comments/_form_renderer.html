@@ -1,0 +1,16 @@
+<form method="post" data-action="submit->assets#commentVideo" data-uid="{{ video.uid }}" class="yt--comment--form">
+    {% csrf_token %}
+    <textarea
+            name="content"
+            id="content"
+            data-action="input->assets#onCommentInputChange"
+            placeholder="Add a comment" class="yt--comment--form--input"
+            data-controller="textarea-autogrow"
+            data-textarea-autogrow-resize-debounce-delay-value="500"
+            autofocus
+    ></textarea>
+    <div>
+        <button type="reset" class="text-gray-800 px-3 py-2 rounded" data-action="click->assets#closeCommentForm" data-uid="{{ video.uid }}">Close</button>
+        <button type="submit" class="yt--comment--form--submit" id="comment-submit-button" disabled>Comment</button>
+    </div>
+</form>

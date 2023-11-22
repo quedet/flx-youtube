@@ -1,0 +1,15 @@
+.thumbnail--item {
+  input {
+    @apply hidden;
+
+    &:checked + img {
+      @apply border border-2 border-blue-500 p-1 relative z-0;
+
+      &::after {
+        content: "U+2714";
+
+        @apply absolute top-0 right-0 p-1 z-10;
+      }
+    }
+  }
+}

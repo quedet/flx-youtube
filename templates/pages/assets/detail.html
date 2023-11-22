@@ -1,0 +1,177 @@
+{% extends 'layout/base.html' %}
+{% load webpack_loader static %}
+
+{% load humanize %}
+{% load thumbnail %}
+
+{% block title %}
+{{ video.title }} | YouTube
+{% endblock %}
+
+{% block content %}
+<div class="yt--video--details">
+    <div class="yt--video--streaming">
+        <div class="yt--streaming--section--item section--item--video-frame">
+            <div class="yt--player yt--player-mini" data-controller="player">
+                <video poster="{{ video.thumbnail.url }}" data-player-target="viewer" data-action="click->player#play timeupdate->player#progress" class="w-full aspect-video bg-black">
+                    <source src='/api/stream?path={{ video.source.name }}' type="{{ video.type }}">
+                </video>
+                <div class="yt--player--controls" data-player-target="controls">
+                    <div class="yt--player--timer" data-player-target="timer">
+                        <span class="yt--timer--current-time">00:00</span> / <span class="yt--timer--duration">{{ video.duration }}</span>
+                    </div>
+                    <div class="yt--progress" data-player-target="progress" data-action="click->player#scrub mousemove->player#prefetch mousedown->player#onmousedown mouseup->player#onmouseup">
+                        <div class="yt--progress__filled" data-player-target="filled"></div>
+                    </div>
+                    <div class="yt--actions">
+                        <div class="yt--actions--group">
+                            <button data-player-target="playButton" type="button" data-action="click->player#play" class="yt--group--item yt--play--button">
+                                <svg class="yt--play-icon yt--paused hidden" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><g id="fePlay0" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="fePlay1" fill="currentColor" fill-rule="nonzero"><path id="fePlay2" d="M6 5.912c0-.155.037-.307.107-.443c.23-.44.75-.599 1.163-.354l10.29 6.088c.14.083.255.206.332.355c.23.44.08.995-.332 1.239L7.27 18.885a.814.814 0 0 1-.415.115C6.383 19 6 18.592 6 18.089V5.912Z"/></g></g></svg>
+                                <svg class="yt--play-icon yt--played" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="currentColor" d="M14 19V5h4v14h-4Zm-8 0V5h4v14H6Z"/></svg>
+                            </button>
+                            <a href="#" class="yt--group--item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20"><path fill="currentColor" d="M12.244 9.52L5.041 4.571C4.469 4.188 4 4.469 4 5.196v9.609c0 .725.469 1.006 1.041.625l7.203-4.951s.279-.199.279-.478c0-.28-.279-.481-.279-.481zM14 4h1c.553 0 1 .048 1 .6v10.8c0 .552-.447.6-1 .6h-1c-.553 0-1-.048-1-.6V4.6c0-.552.447-.6 1-.6z"/></svg>
+                            </a>
+                            <button class="yt--mute--btn yt--group--item" data-player-target="mute" data-action="click->player#mute">
+                                <svg class="yt--muted-icon hidden" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 36 36"><path fill="currentColor" d="M24.87 6.69a12.42 12.42 0 0 1 3.88 19.61l1.42 1.42a14.43 14.43 0 0 0-4.43-22.84a1 1 0 0 0-.87 1.8Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="currentColor" d="m27.3 27.67l-3.84-3.84l-.57-.57L4.63 5L3.21 6.41L8.8 12H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.83l9.51 8.3a1 1 0 0 0 1.66-.75V23.2l5.59 5.59c-.17.1-.34.2-.51.29a1 1 0 0 0 .9 1.79c.37-.19.72-.4 1.08-.62l2.14 2.14L30.61 31l-3.25-3.25Z" class="clr-i-solid clr-i-solid-path-2"/><path fill="currentColor" d="M22.69 12.62A6.27 6.27 0 0 1 25.8 18a6.17 6.17 0 0 1-1.42 3.92l1.42 1.42a8.16 8.16 0 0 0 2-5.34a8.28 8.28 0 0 0-4.1-7.11a1 1 0 1 0-1 1.73Z" class="clr-i-solid clr-i-solid-path-3"/><path fill="currentColor" d="M20 4.62a1 1 0 0 0-1.66-.75l-6.42 5.6L20 17.54Z" class="clr-i-solid clr-i-solid-path-4"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                                <svg class="yt--mute-icon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 36 36"><path fill="currentColor" d="M23.41 25.25a1 1 0 0 1-.54-1.85a6.21 6.21 0 0 0-.19-10.65a1 1 0 1 1 1-1.73a8.21 8.21 0 0 1 .24 14.06a1 1 0 0 1-.51.17Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="currentColor" d="M25.62 31.18a1 1 0 0 1-.45-1.89A12.44 12.44 0 0 0 25 6.89a1 1 0 1 1 .87-1.8a14.44 14.44 0 0 1 .24 26a1 1 0 0 1-.49.09Z" class="clr-i-solid clr-i-solid-path-2"/><path fill="currentColor" d="m18.33 4l-9.26 8h-6a1 1 0 0 0-1 1v9.92a1 1 0 0 0 1 1h5.81l9.46 8.24a1 1 0 0 0 1.66-.73V4.72A1 1 0 0 0 18.33 4Z" class="clr-i-solid clr-i-solid-path-3"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                            </button>
+                            <div class="yt--volume w-32 h-1.5 bg-gray-50 mx-2 bg-opacity-40 flex rounded-full cursor-pointer" data-player-target="volume" data-action="mousemove->player#volume mousedown->player#volumemousedown mouseup->player#volumemouseup">
+                                <div class="basis-1/4 h-full bg-white rounded-full yt--volume__filled" data-player-target="volumeFilled"></div>
+                            </div>
+                        </div>
+                        <div class="yt--actions--group">
+                            <button class="yt--group--item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M22 4H2v16h20V4zM4 12h4v2H4v-2zm10 6H4v-2h10v2zm6 0h-4v-2h4v2zm0-4H10v-2h10v2z"/></svg>
+                            </button>
+                            <button class="yt--group--item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m9.25 22l-.4-3.2q-.325-.125-.613-.3t-.562-.375L4.7 19.375l-2.75-4.75l2.575-1.95Q4.5 12.5 4.5 12.337v-.674q0-.163.025-.338L1.95 9.375l2.75-4.75l2.975 1.25q.275-.2.575-.375t.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3t.562.375l2.975-1.25l2.75 4.75l-2.575 1.95q.025.175.025.338v.674q0 .163-.05.338l2.575 1.95l-2.75 4.75l-2.95-1.25q-.275.2-.575.375t-.6.3l-.4 3.2h-5.5Zm2.8-6.5q1.45 0 2.475-1.025T15.55 12q0-1.45-1.025-2.475T12.05 8.5q-1.475 0-2.488 1.025T8.55 12q0 1.45 1.012 2.475T12.05 15.5Z"/></svg>
+                            </button>
+                            <button class="yt--group--item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 19v-5h2v3h3v2H5Zm0-9V5h5v2H7v3H5Zm9 9v-2h3v-3h2v5h-5Zm3-9V7h-3V5h5v5h-2Z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yt--streaming--section--item information--section">
+            <div class="section--item information--title"><h1 class="text-2xl">{{ video.title }}</h1></div>
+            <div class="section--item information--action">
+                <div class="flex items-center gap-8">
+                    <div class="flex gap-4">
+                        <a href="{{ video.author.channel.get_absolute_url }}">
+                            {% if video.author.channel.picture.cropped %}
+                                <img src="{% thumbnail video.author.channel.picture.cropped 55x55 %}" class="rounded-full" alt="" />
+                            {% else %}
+                                <img src="{% thumbnail video.author.channel.picture.original 55x55 crop %}" class="rounded-full" alt="" />
+                            {% endif %}
+                        </a>
+                        <div>
+                            <span class="block mb-1 text-xl">
+                                <a href="{{ video.author.channel.get_absolute_url }}">
+                                    {{ video.author.channel.name }}
+                                </a>
+                            </span>
+                            <span class="block text-sm">{{ video.author.channel.followers.count }} subscriber{{ video.author.channel.followers.count|pluralize }}</span>
+                        </div>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user != video.author %}
+                            <div id="subscribe--action" class="information--action--subscribe">
+                                {% if request.user in video.author.channel.followers.all %}
+                                    {% include "components/blocks/thumbs/_subscribed.html" with channel=video.author.channel %}
+                                {% else %}
+                                    {% include "components/blocks/thumbs/_subscribe.html" with channel=video.author.channel %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="flex items-center gap-2">
+                    {% if request.user.is_authenticated %}
+                        <div class="flex items-center bg-gray-100 rounded-full" id="yt-video-{{ video.uid }}-like--action">
+                            {% if request.user in video.users_like.all %}
+                                {% include "components/blocks/thumbs/_liked.html" %}
+                            {% elif request.user in video.users_dislike.all %}
+                                {% include "components/blocks/thumbs/_disliked.html" %}
+                            {% else %}
+                                {% include "components/blocks/thumbs/_like.html" %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <button class="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.59 12L15 7.41v2.46l-.86.13c-4.31.61-7.23 2.87-8.9 6.33c2.32-1.64 5.2-2.43 8.76-2.43h1v2.69m-2-1.69v.02c-4.47.21-7.67 1.82-10 5.08c1-5 4-10 11-11V5l7 7l-7 7v-4.1c-.33 0-.66.01-1 .02Z"/></svg>
+                        <span>Share</span>
+                    </button>
+                    <button class="px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="section--item information--description">
+                <div class="mb-4 flex items-center gap-4"><span>{{ total_views|intcomma }} view{{ total_views|pluralize }}</span><span class="w-1.5 h-1.5 bg-gray-700 rounded-full"></span><span>{{ video.created|date:"d, M Y" }}</span></div>
+                <div data-controller="read-more" data-read-more-more-text-value="Read more ↓" data-read-more-less-text-value="Read less ↑">
+                    <div class="my-content" data-read-more-target="content">
+                        <div class="mb-4">
+                            {% if video.description %}
+                                {{ video.description|safe|linebreaks }}
+                            {% else %}
+                                <p>No Description Yet</p>
+                            {% endif %}
+                        </div>
+                        <div class="w-full h-2 bg-gray-200 my-4"></div>
+                        <div class="my-4">
+                            <a class="flex gap-4 mb-4 w-fit" href="{{ video.author.channel.get_absolute_url }}">
+                                {% if video.author.channel.picture.cropped %}
+                                    <img src="{% thumbnail video.author.channel.picture.cropped 55x55 %}" class="rounded-full" alt="" />
+                                {% else %}
+                                    <img src="{% thumbnail video.author.channel.picture.original 55x55 crop %}" class="rounded-full" alt="" />
+                                {% endif %}
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xl">{{ video.author.channel.name }}</span>
+                                    <span class="text-sm">{{ video.author.channel.following.count }} subscriber{{ video.author.channel.following.count|pluralize }}</span>
+                                </div>
+                            </a>
+                            <div>
+                                <div class="flex items-center gap-4">
+                                    <a href="{{ video.author.channel.get_absolute_url }}" class="flex-[6] flex items-center gap-2 justify-center py-2 border border-gray-300 hover:bg-gray-200 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linejoin="round"><path stroke-linecap="round" d="M3 17V5h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="m14 13l-3 1.732v-3.464L14 13Z"/></g></svg>
+                                        <span>Videos</span>
+                                    </a>
+                                    <a href="{{ video.author.channel.get_absolute_url }}" class="flex-[6] flex items-center gap-2 justify-center py-2 border border-gray-300 hover:bg-gray-200 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28"><path fill="currentColor" d="M2.004 6.75A2.75 2.75 0 0 1 4.754 4H23.25A2.75 2.75 0 0 1 26 6.75v14.5A2.75 2.75 0 0 1 23.25 24H4.755a2.75 2.75 0 0 1-2.75-2.75V6.75Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v14.5c0 .69.56 1.25 1.25 1.25H8v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4h3.25c.69 0 1.25-.56 1.25-1.25V6.75c0-.69-.56-1.25-1.25-1.25H4.755Zm13.746 17v-4a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v4h9ZM14 9.5a2 2 0 1 0 0 4a2 2 0 0 0 0-4Zm-3.5 2a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Z"/></svg>
+                                        <span>About</span>
+                                    </a>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    <button data-action="read-more#toggle" class="text-yellow-600">Read more ↓</button>
+                </div>
+            </div>
+        </div>
+        <div class="yt--streaming--section--item comments--section" data-controller="fetcher" data-fetcher-url-value="{% url 'core:fetch-comments' video.uid %}" data-fetcher-no-topic-value="true">
+            <div class="section--item section--item--header">
+                {% include "components/blocks/comments/_header.html" %}
+            </div>
+            <div class="section--item section--item--form">
+                <div class="section--item--form--container">
+                    {% include "components/blocks/comments/_form.html" %}
+                </div>
+            </div>
+            <div class="section--item section--item--content" id="yt--video-{{ video.uid }}-comments" data-fetcher-target="renderer">
+                {% include "components/blocks/comments/lists/_comments_list.html" with comments=video.comments.all user=request.user %}
+            </div>
+        </div>
+    </div>
+    <div class="yt--related--videos" data-controller="fetcher" data-fetcher-url-value="{% url 'core:fetch-related' video.uid %}">
+        <header>
+            {% include 'components/blocks/related_slideshow.html' %}
+        </header>
+        <div id="yt--related--renderer" data-fetcher-target="renderer" class="yt--related--renderer">
+            {% include "components/blocks/videos/_related_lists.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

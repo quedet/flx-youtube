@@ -1,0 +1,39 @@
+{% load humanize %}
+{% load thumbnail %}
+{% load guardian_tags %}
+
+<div id="video-{{ comment.video.uid }}-comment-{{ comment.id }}" class="yt--comment--item">
+    <div class="yt--comment--container">
+        {% if comment.user.channel %}
+            <a class="yt--comment--profile" href="{{ comment.user.channel.get_absolute_url }}">
+                {% if comment.user.channel.picture.cropped %}
+                    <img src="{% thumbnail comment.user.channel.picture.cropped 45x45 %}" class="rounded-full" alt="{{ comment.user.channel.pseudo }} thumbnail" />
+                {% else %}
+                    <img src="{% thumbnail comment.user.channel.picture.original 45x45 crop %}" class="rounded-full" alt="" />
+                {% endif %}
+            </a>
+        {% else %}
+            <a class="yt--comment--profile" href="#">
+                <img src="{% thumbnail comment.user.profile 45x45 crop %}" class="rounded-full" alt="" />
+            </a>
+        {% endif %}
+        <div class="yt--comment--content" data-controller="comment" data-comment-lazy-value="true" data-comment-url-value="{% url 'core:fetch-replies' comment.video.uid comment.id %}">
+            <div class="yt--comment--content--wrapper" id="video-{{ comment.video.uid }}-comment-{{ comment.id }}-content">
+                {% include "components/blocks/comments/items/_comment_item_content.html" %}
+            </div>
+            {% if comment.replies.count > 0 %}
+                <button type="button" data-action="click->comment#changePageNumber" data-page="1" class="text-sm flex items-center justify-center text-blue-600 px-3 py-2 hover:bg-blue-100 hover:rounded-full">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentcolor" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                      <path d="M7 10l5 5 5-5z"></path>
+                    </svg>
+                    {% if comment.replies.count == 1 %}
+                        <span class="whitespace-nowrap">{{ comment.replies.count }} Reply</span>
+                    {% else %}
+                        <span class="whitespace-nowrap">{{ comment.replies.count }} Replies</span>
+                    {% endif %}
+                </button>
+            {% endif %}
+            <div data-comment-target="renderer" class="yt--comment--replies" id="video-{{ comment.video.uid }}-comment-{{ comment.id }}-replies"></div>
+        </div>
+    </div>
+</div>

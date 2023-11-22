@@ -1,0 +1,80 @@
+{% load crispy_forms_tags %}
+
+<form method="post" data-loader-target="form" class="flex flex-col gap-4" action="{% url 'studio:customization-basic-info' request.user.channel.uid %}">
+    {% csrf_token %}
+    <div class="flex justify-end items-center gap-1 text-sm">
+        <div>
+            <a href="" class="inline-block text-gray-500 font-semibold py-2.5 px-4 hover:bg-gray-100 hover:rounded">CANCEL</a>
+        </div>
+        <div>
+            <button type="submit" class="inline-block text-white font-semibold py-2.5 px-4 bg-gray-400 rounded">PUBLISH</button>
+        </div>
+    </div>
+    <div>
+        <div class="mb-4">
+            <div class="mb-2">Name</div>
+            <p class="text-sm text-gray-600">Choose a channel name that represents you and your content. Changes made to your name and picture are visible only on YouTube and not other Google services. You can change your name twice in 14 days.</p>
+        </div>
+        <div class="flex flex-col gap-2">
+            {{ form.name }}
+        </div>
+    </div>
+    <div>
+        <div class="mb-4">
+            <div class="mb-2">Handle</div>
+            <p class="text-sm text-gray-600">Choose your unique handle by adding letters and numbers. You can change your handle back within 14 days. Handles can be changed twice every 14 days.</p>
+        </div>
+        <div class="flex flex-col gap-2">
+            {{form.pseudo}}
+            <span class="text-sm text-gray-600">{{ request.scheme }}://{{ request.get_host }}/@{{ form.instance.pseudo }}</span>
+        </div>
+    </div>
+    <div>
+        <div class="mb-4">
+            <div class="mb-2">Description</div>
+        </div>
+        <div class="flex flex-col gap-2">
+            {{ form.description }}
+        </div>
+    </div>
+    <div>
+        <div class="mb-4">
+            <div class="mb-2">Channel URL</div>
+            <p class="text-sm text-gray-600">This is the standard web address for your channel. It includes your unique channel ID, which is the numbers and letters at the end of the URL.</p>
+        </div>
+        <div class="flex flex-col gap-2">
+            <input readonly type="text" name="channel_url" value="{{ request.scheme }}://{{ request.get_host }}/channel/{{ request.user.channel.uid }}" placeholder="Enter a channel name" {% include "django/forms/widgets/attrs.html" %}
+                class="border border-gray-600 rounded"
+            />
+        </div>
+    </div>
+    {% with request.user.channel as channel %}
+        <div class="flex flex-col gap-4">
+            <div>
+                <div class="mb-2">Links</div>
+                <p class="text-sm text-gray-600">Share external links with your viewers. They'll be visible on your channel profile and about page.</p>
+            </div>
+            <div id="yt-channel-links" data-controller="sortable" data-sortable-handle-value=".handle" data-sortable-update-url-value="{% url 'studio:update-link-order' channel.uid %}" class="flex flex-col gap-3">
+                {% if channel.links %}
+                    {% include 'pages/studio/customization/basic/links/index.html' with links=channel.links %}
+                {% endif %}
+            </div>
+            <div>
+                <button type="button" data-action="click->studio#showLinkForm" data-channel-id="{{ channel.id }}">
+                    <span>ADD LINK</span>
+                </button>
+            </div>
+        </div>
+    {% endwith %}
+    <div>
+        <div class="mb-4">
+            <div class="mb-2">Contact info</div>
+            <p class="text-sm text-gray-600">Let people know how to contact you with business inquiries. The email address you enter may appear in the About section of your channel and be visible to viewers.</p>
+        </div>
+        <div class="flex flex-col gap-2">
+            <input type="email" name="email" placeholder="Enter an email address" {% include "django/forms/widgets/attrs.html" %}
+                class="border border-gray-600 rounded"
+            />
+        </div>
+    </div>
+</form>

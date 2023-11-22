@@ -1,0 +1,21 @@
+{% load thumbnail %}
+{% load humanize %}
+
+{% for item in placeholder_range %}
+<div class="yt--video--placeholder">
+    <div class="yt--placeholder--thumbnail"></div>
+    <div class="yt--placeholder--content">
+        {% if not on_channel %}
+            <div class="w-8 h-8 px-4 rounded-full bg-gray-500"></div>
+        {% endif %}
+        <div class="flex flex-col gap-3 w-full">
+            <div class="w-full h-2 bg-gray-500"></div>
+            <div class="w-1/2 h-2 bg-gray-500"></div>
+            {% if not on_channel %}
+                <div class="w-1/4 h-1 bg-gray-500"></div>
+            {% endif %}
+            <span class="flex items-center gap-2 text-sm text-gray-600"><span class="w-1/6 h-1 bg-gray-500"></span><span class="w-1 h-1 bg-gray-500 rounded-full"></span><span class="w-1/6 h-1 bg-gray-500"></span></span>
+        </div>
+    </div>
+</div>
+{% endfor %}

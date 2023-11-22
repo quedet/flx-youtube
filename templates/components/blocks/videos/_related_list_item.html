@@ -1,0 +1,15 @@
+{% load humanize %}
+
+<div class="yt--video yt--video--list">
+    <a class="yt--video--header aspect-video rounded-md bg-gray-200" href="{{ related_video.get_absolute_url }}">
+        <img src="{{ related_video.thumbnail.url }}" class="rounded-md bg-black w-full"/>
+        <span class="absolute right-0 bottom-0 text-white font-semibold rounded text-xs m-1 bg-black bg-opacity-80 px-1 py-1">{{ related_video.duration }}</span>
+    </a>
+    <div class="yt--video--info">
+        <a href="{{ related_video.get_absolute_url }}" class="yt--video--title">
+            {{ related_video.title }}
+        </a>
+        <a href="#" class="text-xs text-gray-600" title="{{ related_video.author.channel.name }}">{{ related_video.author.channel.name }}</a>
+        <span class="flex items-center gap-2 text-xs text-gray-600"><span>21K views</span><span class="w-1 h-1 bg-gray-500 rounded-full"></span><span>{{ related_video.created|naturaltime|capfirst }}</span></span>
+    </div>
+</div>

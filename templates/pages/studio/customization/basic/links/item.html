@@ -1,0 +1,11 @@
+<div class="flex items-center gap-4" data-id="{{ link.id }}" data-sortable-target="item">
+    <div>
+        <button type="button" class="handle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 15v-2h16v2H4Zm0-4V9h16v2H4Z"/></svg>
+        </button>
+    </div>
+    <div>
+        <div>{{ link.title }}</div>
+        <div class="text-sm text-blue-500">{{ link.url }}</div>
+    </div>
+</div>

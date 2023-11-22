@@ -1,0 +1,24 @@
+{% load humanize %}
+
+{% for video in videos %}
+    <label for="id_video_{{ video.id }}" class="yt--video--label{% if trailer == video %} checked{% endif %}">
+        <div class="yt--video--trailer">
+            <header class="yt--video--header">
+                <div class="yt--video--header--overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6.25 3A3.25 3.25 0 0 0 3 6.25v11.5A3.25 3.25 0 0 0 6.25 21h11.5A3.25 3.25 0 0 0 21 17.75V6.25A3.25 3.25 0 0 0 17.75 3H6.25ZM4.5 6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75v11.5a1.75 1.75 0 0 1-1.75 1.75H6.25a1.75 1.75 0 0 1-1.75-1.75V6.25Zm12.78 3.03a.75.75 0 1 0-1.06-1.06l-6.223 6.216L7.78 12.22a.75.75 0 0 0-1.06 1.06l2.745 2.746a.75.75 0 0 0 1.06 0l6.754-6.745Z"/></svg>
+                </div>
+                <img src="{{ video.thumbnail.url }}" class="rounded-md aspect-video bg-black"/>
+                <span class="absolute right-0 bottom-0 text-white font-semibold rounded text-xs m-1 bg-black bg-opacity-80 px-1 py-1">{{ video.duration }}</span>
+            </header>
+            <div class="yt--video--info">
+                <div class="yt--video--title">{{ video.title }}</div>
+                <span class="flex items-center gap-2 text-xs text-gray-600"><span>{{ video.get_total_views }} view{{ video.get_total_views|pluralize }}</span><span class="w-1 h-1 bg-gray-500 rounded-full"></span><span>{{ video.created|naturaltime|capfirst }}</span></span>
+            </div>
+        </div>
+        <input type="radio" data-checker-target="radio" class="yt--radio--check" name="video" value="{{ video.id }}" {% if trailer.id == video.id %} checked{% endif %} id="id_video_{{ video.id }}" data-action="change->checker#check" />
+    </label>
+{% empty %}
+    <div>
+        <div class="text-center mb-4">No Videos Yet</div>
+    </div>
+{% endfor %}
